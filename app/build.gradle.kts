@@ -69,9 +69,6 @@ dependencies {
     implementation(libs.koin.core)
 
     // testing
-    /*8
-    robolectric... let me set them up as I go
-     */
     testImplementation(libs.junit)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
