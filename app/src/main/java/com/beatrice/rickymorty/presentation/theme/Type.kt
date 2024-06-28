@@ -1,4 +1,4 @@
-package com.beatrice.rickymorty.ui.theme
+package com.beatrice.rickymorty.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

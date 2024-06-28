@@ -1,4 +1,4 @@
-package com.beatrice.rickymorty.ui.theme
+package com.beatrice.rickymorty.presentation.theme
 
 import android.app.Activity
 import android.os.Build

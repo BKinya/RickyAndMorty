@@ -64,6 +64,10 @@ dependencies {
     // Retrofit
     implementation(libs.retrofit)
 
+    // Koin
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.core)
+
     // testing
     /*8
     robolectric... let me set them up as I go
