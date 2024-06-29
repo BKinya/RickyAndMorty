@@ -20,15 +20,12 @@ class CharacterViewModel(
     val characterUiState = _characterUiState.asStateFlow()
 
     fun getAllCharacters() {
-        println("Aiii!")
         viewModelScope.launch(dispatcher) {
             characterRepository.getAllCharacters()
                 .onStart {
-                    println("Getting started!!!")
                     _characterUiState.value = CharacterUiState.Loading
                 }
                 .collect { result ->
-                    println("collecting $result")
                     when (result) {
                         is NetworkResult.Success -> {
                             val characters = result.data

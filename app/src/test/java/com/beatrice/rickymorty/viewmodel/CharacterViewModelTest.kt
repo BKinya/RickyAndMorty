@@ -7,6 +7,7 @@ import com.beatrice.rickymorty.presentation.viewmodel.CharacterViewModel
 import com.beatrice.rickymorty.util.fakes.FakeCharacterRepository
 import com.beatrice.rickymorty.util.resources.characters
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
