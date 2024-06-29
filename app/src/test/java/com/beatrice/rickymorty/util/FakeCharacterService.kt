@@ -18,7 +18,6 @@ class FakeCharacterService : CharacterService {
                 characterResult
             )
             response
-
         } else {
             val response = Response
                 .error<CharacterResponse>(
@@ -27,7 +26,5 @@ class FakeCharacterService : CharacterService {
                 )
             response
         }
-
-
     }
 }

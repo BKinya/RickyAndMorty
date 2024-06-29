@@ -29,6 +29,8 @@ android {
             buildConfigField("String", "BASE_URL", "\"https://rickandmortyapi.com/api/\"")
         }
         release {
+            buildConfigField("String", "BASE_URL", "\"https://rickandmortyapi.com/api/\"")
+
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

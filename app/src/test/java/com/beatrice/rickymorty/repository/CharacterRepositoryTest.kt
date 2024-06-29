@@ -15,13 +15,13 @@ class CharacterRepositoryTest {
     private val repository = CharacterRepositoryImpl(apiService = apiService)
 
     @Test
-    fun `when fetching characters is successful return a list of characters`() = runTest{
+    fun `when fetching characters is successful return a list of characters`() = runTest {
         val response = repository.getAllCharacters().first()
         assert(response is NetworkResult.Success)
         val data = (response as NetworkResult.Success).data
         assertEquals(data?.size, 2)
-        assertEquals(data?.get(0)?.name,"Rick Sanchez")
-        assertEquals(data?.get(1)?.name,"Morty Smith")
+        assertEquals(data?.get(0)?.name, "Rick Sanchez")
+        assertEquals(data?.get(1)?.name, "Morty Smith")
     }
 
     @Test
@@ -32,8 +32,5 @@ class CharacterRepositoryTest {
         assert(response is NetworkResult.Error)
         val message = (response as NetworkResult.Error).errorMessage
         assertEquals(message, GENERAL_ERROR)
-
     }
-
-
 }

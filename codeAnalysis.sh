@@ -1,4 +1,4 @@
-./gradlew ktlintFormat  && ./gradlew ktlintCheck && ./gradlew detekt
+./gradlew ktlintFormat  && ./gradlew ktlintCheck && ./gradlew detekt && ./gradlew build
 
 # When using it for the first time, use the following guarantee running permissions:
 # chmod +x codeAnalysis.sh

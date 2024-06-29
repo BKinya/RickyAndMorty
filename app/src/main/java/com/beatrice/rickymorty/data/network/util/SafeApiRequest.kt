@@ -19,7 +19,7 @@ fun <T> safeApiRequest(
             }
         } else {
             val statusCode = response.code()
-            if (statusCode == 404) {
+            if (statusCode == HTTP_NOT_FOUND) {
                 NetworkResult.Error(NOT_FOUND)
             } else {
                 NetworkResult.Error(GENERAL_ERROR)
@@ -28,8 +28,8 @@ fun <T> safeApiRequest(
     } catch (e: IOException) {
         logcat(SERVER_ERROR_TAG) { e.asLog() }
         NetworkResult.Exception(NO_INTERNET)
-    } catch (e: Exception) {
-        logcat(SERVER_ERROR_TAG) { e.asLog() }
+    } catch (exception: Exception) {
+        logcat(SERVER_ERROR_TAG) { exception.asLog() }
         NetworkResult.Exception(GENERAL_ERROR)
     }
 
