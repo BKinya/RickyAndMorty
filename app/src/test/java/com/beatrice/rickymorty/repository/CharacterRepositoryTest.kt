@@ -1,9 +1,9 @@
 package com.beatrice.rickymorty.repository
 
-import com.beatrice.rickymorty.data.network.util.GENERAL_ERROR
+import com.beatrice.rickymorty.data.network.util.GENERAL_SERVER_ERROR
 import com.beatrice.rickymorty.data.network.util.NetworkResult
 import com.beatrice.rickymorty.data.repository.CharacterRepositoryImpl
-import com.beatrice.rickymorty.util.FakeCharacterService
+import com.beatrice.rickymorty.util.fakes.FakeCharacterService
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -31,6 +31,6 @@ class CharacterRepositoryTest {
         val response = repository.getAllCharacters().first()
         assert(response is NetworkResult.Error)
         val message = (response as NetworkResult.Error).errorMessage
-        assertEquals(message, GENERAL_ERROR)
+        assertEquals(message, GENERAL_SERVER_ERROR)
     }
 }

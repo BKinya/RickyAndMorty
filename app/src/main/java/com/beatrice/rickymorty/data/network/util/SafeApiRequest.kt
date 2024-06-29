@@ -15,14 +15,14 @@ fun <T> safeApiRequest(
                 NetworkResult.Success(data = response.body())
             } else {
                 logcat(SERVER_ERROR_TAG) { "Null result" }
-                NetworkResult.Error(GENERAL_ERROR)
+                NetworkResult.Error(GENERAL_SERVER_ERROR)
             }
         } else {
             val statusCode = response.code()
             if (statusCode == HTTP_NOT_FOUND) {
                 NetworkResult.Error(NOT_FOUND)
             } else {
-                NetworkResult.Error(GENERAL_ERROR)
+                NetworkResult.Error(GENERAL_SERVER_ERROR)
             }
         }
     } catch (e: IOException) {
@@ -30,7 +30,7 @@ fun <T> safeApiRequest(
         NetworkResult.Exception(NO_INTERNET)
     } catch (exception: Exception) {
         logcat(SERVER_ERROR_TAG) { exception.asLog() }
-        NetworkResult.Exception(GENERAL_ERROR)
+        NetworkResult.Exception(GENERAL_SERVER_ERROR)
     }
 
     return result

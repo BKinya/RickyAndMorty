@@ -11,7 +11,6 @@ class RickyApplication : Application() {
         super.onCreate()
         startKoin()
 
-        // Log all priorities in debug builds, no-op in release builds.
         AndroidLogcatLogger.installOnDebuggableApp(this, minPriority = LogPriority.DEBUG)
     }
 

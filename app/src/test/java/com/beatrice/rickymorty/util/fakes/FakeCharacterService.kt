@@ -1,4 +1,4 @@
-package com.beatrice.rickymorty.util
+package com.beatrice.rickymorty.util.fakes
 
 import com.beatrice.rickymorty.data.network.CharacterService
 import com.beatrice.rickymorty.data.network.models.CharacterResponse

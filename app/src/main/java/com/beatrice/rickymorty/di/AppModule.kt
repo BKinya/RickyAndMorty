@@ -2,10 +2,13 @@ package com.beatrice.rickymorty.di
 
 import com.beatrice.rickymorty.BuildConfig
 import com.beatrice.rickymorty.data.network.CharacterService
+import com.beatrice.rickymorty.presentation.viewmodel.CharacterViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -14,6 +17,14 @@ val appModules = module {
     single { createLoggingInterceptor() }
     single { createRetrofit(client = get()) }
     single { createCharacterService(retrofit = get()) }
+
+    factory { Dispatchers.IO }
+    viewModel {
+        CharacterViewModel(
+            dispatcher = get(),
+            characterRepository = get()
+        )
+    }
 }
 
 fun createRetrofit(client: OkHttpClient): Retrofit {
