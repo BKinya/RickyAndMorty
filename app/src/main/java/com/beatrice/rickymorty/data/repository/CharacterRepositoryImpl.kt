@@ -13,14 +13,7 @@ class CharacterRepositoryImpl(
     private val apiService: CharacterService
 ) : CharacterRepository {
     override fun getAllCharacters(): Flow<NetworkResult<List<Character>?>> = flow {
-        /**
-         * Get the network result with all the unwanted things
-         */
         val response = safeApiRequest { apiService.getAllCharacters() }
-
-        /**
-         * Convert the result to the suitable data types
-         */
         val result = when (response) {
             is NetworkResult.Success -> {
                 val characters = response.data?.toDomain()

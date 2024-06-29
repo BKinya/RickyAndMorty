@@ -1,5 +1,8 @@
 package com.beatrice.rickymorty.data.network.models
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Result(
     val created: String,
     val episode: List<String>,
