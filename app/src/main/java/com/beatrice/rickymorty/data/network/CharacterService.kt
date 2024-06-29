@@ -1,6 +1,12 @@
 package com.beatrice.rickymorty.data.network
 
-interface CharacterService{
+import com.beatrice.rickymorty.data.network.models.CharacterResponse
+import retrofit2.Response
+import retrofit2.http.GET
 
+interface CharacterService {
 
+    // TODO 1: Pagination ???
+    @GET("character")
+    fun getAllCharacters(): Response<CharacterResponse>
 }

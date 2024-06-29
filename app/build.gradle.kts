@@ -25,7 +25,7 @@ android {
     }
 
     buildTypes {
-        debug{
+        debug {
             buildConfigField("String", "BASE_URL", "\"https://rickandmortyapi.com/api/\"")
         }
         release {
@@ -82,6 +82,9 @@ dependencies {
     // Koin
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
+
+    // logcat
+    implementation(libs.logcat)
 
     // testing
     testImplementation(libs.junit)

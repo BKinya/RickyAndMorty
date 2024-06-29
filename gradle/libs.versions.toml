@@ -8,6 +8,7 @@ activityCompose = "1.9.0"
 composeBom = "2024.06.00"
 klint = "12.1.1"
 detekt = "1.23.6"
+logcat = "0.1"
 okHttp3 = "4.12.0"
 retrofit = "2.11.0"
 
@@ -23,6 +24,7 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+logcat = { module = "com.squareup.logcat:logcat", version.ref = "logcat" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koinBom" }
 koin-core = { module = "io.insert-koin:koin-core" }

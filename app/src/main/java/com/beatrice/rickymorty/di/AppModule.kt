@@ -1,6 +1,7 @@
 package com.beatrice.rickymorty.di
 
 import com.beatrice.rickymorty.BuildConfig
+import com.beatrice.rickymorty.data.network.CharacterService
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -12,7 +13,7 @@ import retrofit2.converter.kotlinx.serialization.asConverterFactory
 val appModules = module {
     single { createLoggingInterceptor() }
     single { createRetrofit(client = get()) }
-
+    single { createCharacterService(retrofit = get()) }
 }
 
 fun createRetrofit(client: OkHttpClient): Retrofit {
@@ -33,3 +34,5 @@ fun createLoggingInterceptor(): OkHttpClient {
     }
     return OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
 }
+
+fun createCharacterService(retrofit: Retrofit): CharacterService = retrofit.create(CharacterService::class.java)
