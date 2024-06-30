@@ -5,7 +5,6 @@ import com.beatrice.rickymorty.data.network.CharacterService
 import com.beatrice.rickymorty.data.repository.CharacterRepositoryImpl
 import com.beatrice.rickymorty.domain.repository.CharacterRepository
 import com.beatrice.rickymorty.presentation.viewmodel.CharacterViewModel
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -14,6 +13,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 
 val appModules = module {
     single { createLoggingInterceptor() }

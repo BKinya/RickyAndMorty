@@ -71,8 +71,8 @@ dependencies {
 
     // Retrofit
     implementation(libs.retrofit)
-//    implementation(libs.converter.kotlinx.serialization)
-    implementation(libs.retrofit2.kotlinx.serialization.converter)
+    implementation(libs.converter.kotlinx.serialization)
+//    implementation(libs.retrofit2.kotlinx.serialization.converter)
 
     implementation(platform(libs.okHttp3.bom))
 
