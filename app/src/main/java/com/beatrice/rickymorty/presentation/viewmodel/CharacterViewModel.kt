@@ -19,7 +19,13 @@ class CharacterViewModel(
     private val _characterUiState: MutableStateFlow<CharacterUiState> = MutableStateFlow(CharacterUiState.Initial)
     val characterUiState = _characterUiState.asStateFlow()
 
-    fun getAllCharacters() {
+    fun onEvent(characterEvent: CharacterEvent){
+        when(characterEvent){
+            is CharacterEvent.FetchAllCharacters -> onFetchAllCharacters()
+        }
+    }
+
+    fun onFetchAllCharacters() {
         viewModelScope.launch(dispatcher) {
             characterRepository.getAllCharacters()
                 .onStart {

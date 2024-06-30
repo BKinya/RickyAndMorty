@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.beatrice.rickymorty.presentation.theme.RickyMortyTheme
 import com.beatrice.rickymorty.presentation.ui.screens.CharactersScreen
+import com.beatrice.rickymorty.presentation.viewmodel.CharacterEvent
 import com.beatrice.rickymorty.presentation.viewmodel.CharacterViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -19,7 +20,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getAllCharacters()
+       onFetchCharacters()
         setContent {
             val uiState = characterViewModel.characterUiState.collectAsStateWithLifecycle().value
             RickyMortyTheme {
@@ -34,7 +35,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun getAllCharacters() {
-        characterViewModel.getAllCharacters()
-    }
+   private fun onFetchCharacters(){
+       characterViewModel.onEvent(CharacterEvent.FetchAllCharacters)
+   }
 }
