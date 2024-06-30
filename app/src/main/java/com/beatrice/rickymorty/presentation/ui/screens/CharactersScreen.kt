@@ -21,21 +21,26 @@ fun CharactersScreen(
         modifier = modifier.padding(16.dp),
         topBar = {
             Text(text = "Ricky and Morty")
-        },
+        }
     ) { contentPadding ->
         when (uiState) {
             is CharacterUiState.Loading -> ShowLoadingIndicator(
                 modifier = Modifier.padding(contentPadding)
             )
-            is CharacterUiState.Characters -> ShowCharactersList(characters = uiState.data,
-                modifier = Modifier.padding(contentPadding))
+            is CharacterUiState.Characters -> ShowCharactersList(
+                characters = uiState.data,
+                modifier = Modifier.padding(contentPadding)
+            )
             is CharacterUiState.Error -> ShowErrorMessage(
                 message = uiState.errorMessage,
                 modifier = Modifier.padding(contentPadding)
             )
 
-            is CharacterUiState.Empty -> ShowErrorMessage(message = uiState.message, textColor = Color.DarkGray,
-                modifier = Modifier.padding(contentPadding))
+            is CharacterUiState.Empty -> ShowErrorMessage(
+                message = uiState.message,
+                textColor = Color.DarkGray,
+                modifier = Modifier.padding(contentPadding)
+            )
             else -> {
                 // do nothing
             }

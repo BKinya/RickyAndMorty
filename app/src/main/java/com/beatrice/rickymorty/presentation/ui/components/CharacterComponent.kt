@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -30,12 +29,14 @@ fun CharacterComponent(
     modifier: Modifier = Modifier,
     character: Character
 ) {
-    Box(modifier = modifier.background(
-        color = Color.LightGray,
-        shape = RoundedCornerShape(20.dp)
+    Box(
+        modifier = modifier.background(
+            color = Color.LightGray,
+            shape = RoundedCornerShape(20.dp)
 
-    )
-        .padding(14.dp)) {
+        )
+            .padding(14.dp)
+    ) {
         Column(
             modifier = modifier,
             verticalArrangement = Arrangement.Center,
