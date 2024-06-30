@@ -1,0 +1,1 @@
+[Discover Event Driven Architecture for Android](https://proandroiddev.com/discovering-event-driven-architecture-for-android-717e6332065e)
