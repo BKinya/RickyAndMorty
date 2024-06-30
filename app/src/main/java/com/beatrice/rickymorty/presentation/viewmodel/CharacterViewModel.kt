@@ -19,7 +19,13 @@ class CharacterViewModel(
     private var characters: MutableStateFlow<PagingData<Character>> = MutableStateFlow(PagingData.empty())
     val pagedCharacters get() = characters.asStateFlow()
 
-    fun getAllCharacters() {
+    fun onEvent(characterEvent: CharacterEvent){
+        when(characterEvent){
+            is CharacterEvent.FetchAllCharacters -> onFetchAllCharacters()
+        }
+    }
+
+    fun onFetchAllCharacters() {
         viewModelScope.launch(dispatcher) {
             characterRepository.getAllCharacters().collectLatest { data ->
                 characters.value = data
