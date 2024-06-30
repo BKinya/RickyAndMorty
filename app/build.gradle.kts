@@ -71,7 +71,8 @@ dependencies {
 
     // Retrofit
     implementation(libs.retrofit)
-    implementation(libs.converter.kotlinx.serialization)
+//    implementation(libs.converter.kotlinx.serialization)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
 
     implementation(platform(libs.okHttp3.bom))
 
@@ -85,6 +86,11 @@ dependencies {
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.koin.android)
+
+    implementation(libs.androidx.lifecycle.runtime.compose)
+
+    // coil
+    implementation(libs.coil.compose)
 
     // logcat
     implementation(libs.logcat)
