@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 import com.beatrice.rickymorty.presentation.ui.components.ShowCharactersList
 import com.beatrice.rickymorty.presentation.ui.components.ShowErrorMessage
 import com.beatrice.rickymorty.presentation.ui.components.ShowLoadingIndicator
-import com.beatrice.rickymorty.presentation.viewmodel.CharacterUiState
+import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterUiState
 
 @Composable
 fun CharactersScreen(

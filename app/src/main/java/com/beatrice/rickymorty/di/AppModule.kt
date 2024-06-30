@@ -5,6 +5,7 @@ import com.beatrice.rickymorty.data.network.CharacterService
 import com.beatrice.rickymorty.data.repository.CharacterRepositoryImpl
 import com.beatrice.rickymorty.domain.repository.CharacterRepository
 import com.beatrice.rickymorty.presentation.viewmodel.CharacterViewModel
+import com.beatrice.rickymorty.presentation.viewmodel.state.StateMachine
 import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -23,10 +24,12 @@ val appModules = module {
     factory<CharacterRepository> { CharacterRepositoryImpl(apiService = get()) }
 
     factory { Dispatchers.IO }
+    factory { StateMachine() }
     viewModel {
         CharacterViewModel(
             dispatcher = get(),
-            characterRepository = get()
+            characterRepository = get(),
+            stateMachine = get()
         )
     }
 }

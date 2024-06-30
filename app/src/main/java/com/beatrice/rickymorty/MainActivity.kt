@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.beatrice.rickymorty.presentation.theme.RickyMortyTheme
 import com.beatrice.rickymorty.presentation.ui.screens.CharactersScreen
-import com.beatrice.rickymorty.presentation.viewmodel.CharacterEvent
+import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterEvent
 import com.beatrice.rickymorty.presentation.viewmodel.CharacterViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -24,7 +24,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             val uiState = characterViewModel.characterUiState.collectAsStateWithLifecycle().value
             RickyMortyTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -36,6 +35,6 @@ class MainActivity : ComponentActivity() {
     }
 
    private fun onFetchCharacters(){
-       characterViewModel.onEvent(CharacterEvent.FetchAllCharacters)
+       characterViewModel.sendEVent(CharacterEvent.FetchAllCharacters)
    }
 }
