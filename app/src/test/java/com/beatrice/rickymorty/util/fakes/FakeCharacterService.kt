@@ -11,7 +11,7 @@ import retrofit2.Response
 
 class FakeCharacterService : CharacterService {
     var isFetchCharactersSuccesfull = true
-    override fun getAllCharacters(): Response<CharacterResponse> {
+    override suspend fun getAllCharacters(): Response<CharacterResponse> {
         return if (isFetchCharactersSuccesfull) {
             val characterResult = Json.decodeFromString<CharacterResponse>(charactersJson)
             val response = Response.success(

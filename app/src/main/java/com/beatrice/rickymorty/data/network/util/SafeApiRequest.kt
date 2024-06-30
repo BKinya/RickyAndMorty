@@ -6,22 +6,20 @@ import okio.IOException
 import retrofit2.Response
 
 suspend fun <T> safeApiRequest(
-    block:  suspend () -> Response<T>
+    block: suspend () -> Response<T>
 ): NetworkResult<T?> {
     val result = try {
         val response = block()
-        if (response.isSuccessful){
+        if (response.isSuccessful) {
             if (response.body() != null) {
                 NetworkResult.Success(data = response.body())
             } else {
                 logcat(SERVER_ERROR_TAG) { "Null result" }
                 NetworkResult.Error(GENERAL_SERVER_ERROR)
             }
-        }else{
+        } else {
             NetworkResult.Error(GENERAL_SERVER_ERROR)
         }
-
-
     } catch (e: IOException) {
         println("Exception 1 is ${e.message}")
         logcat(SERVER_ERROR_TAG) { e.asLog() }

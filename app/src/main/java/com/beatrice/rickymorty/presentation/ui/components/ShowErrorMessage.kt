@@ -19,18 +19,18 @@ fun ShowErrorMessage(
     message: String,
     textColor: Color = Color.Red
 ) {
-
     Box(
         modifier = modifier.fillMaxSize()
     ) {
         Text(
-            text = message, style = TextStyle(
+            text = message,
+            style = TextStyle(
                 textAlign = TextAlign.Center,
                 fontSize = 20.sp,
                 fontFamily = FontFamily.Serif,
                 color = textColor,
                 fontWeight = FontWeight.SemiBold
-                ),
+            ),
             modifier = Modifier.align(alignment = Alignment.Center)
         )
     }

@@ -12,13 +12,13 @@ import com.beatrice.rickymorty.domain.model.Character
 fun ShowCharactersList(
     modifier: Modifier = Modifier,
     characters: List<Character>
-){
+) {
     LazyHorizontalGrid(
         modifier = modifier,
-        rows = GridCells.Adaptive(128.dp)) {
-        items(characters){ character ->
+        rows = GridCells.Adaptive(128.dp)
+    ) {
+        items(characters) { character ->
             CharacterComponent(character = character)
         }
     }
-
 }

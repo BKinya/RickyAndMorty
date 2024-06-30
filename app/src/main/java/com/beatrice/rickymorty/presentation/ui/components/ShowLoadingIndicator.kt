@@ -8,8 +8,8 @@ import androidx.compose.ui.Modifier
 @Composable
 fun ShowLoadingIndicator(
     modifier: Modifier = Modifier
-){
-    Box(modifier = modifier){
+) {
+    Box(modifier = modifier) {
         CircularProgressIndicator()
     }
 }

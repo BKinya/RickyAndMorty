@@ -17,11 +17,10 @@ fun CharactersScreen(
     uiState: CharacterUiState,
     modifier: Modifier = Modifier
 ) {
-
     Scaffold(
         modifier = modifier.padding(16.dp),
         topBar = {
-            Text(text = "Ricky and Morty")// TODO: Add searching a charater
+            Text(text = "Ricky and Morty")
         }
     ) { _ ->
         when (uiState) {
@@ -36,6 +35,5 @@ fun CharactersScreen(
                 // do nothing
             }
         }
-
     }
 }

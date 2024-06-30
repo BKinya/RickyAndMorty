@@ -16,7 +16,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.provider.FontsContractCompat.Columns
 import coil.compose.AsyncImage
 import com.beatrice.rickymorty.R
 import com.beatrice.rickymorty.domain.model.Character
@@ -34,23 +33,29 @@ fun CharacterComponent(
         AsyncImage(
             modifier = Modifier.fillMaxWidth(),
             model = character.imageUrl,
-            contentDescription = stringResource(R.string.character_s_image
+            contentDescription = stringResource(
+                R.string.character_s_image
             )
         )
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = character.name, style = TextStyle(
-            fontSize = 18.sp,
-            fontWeight = FontWeight.SemiBold,
-            fontFamily = FontFamily.SansSerif,
-            color = Color.DarkGray
-        ))
+        Text(
+            text = character.name,
+            style = TextStyle(
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold,
+                fontFamily = FontFamily.SansSerif,
+                color = Color.DarkGray
+            )
+        )
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = character.species, style = TextStyle(
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Normal,
-            fontFamily = FontFamily.SansSerif,
-            color = Color.DarkGray
-        ))
-
+        Text(
+            text = character.species,
+            style = TextStyle(
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Normal,
+                fontFamily = FontFamily.SansSerif,
+                color = Color.DarkGray
+            )
+        )
     }
 }

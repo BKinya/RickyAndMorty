@@ -8,5 +8,5 @@ interface CharacterService {
 
     // TODO 1: Pagination ???
     @GET("character")
-   suspend fun getAllCharacters(): Response<CharacterResponse>
+    suspend fun getAllCharacters(): Response<CharacterResponse>
 }

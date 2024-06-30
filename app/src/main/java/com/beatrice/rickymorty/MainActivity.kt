@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getAllCharacters()// TODO: Should I put this in LaunchedEffect
+        getAllCharacters()
         setContent {
             val uiState = characterViewModel.characterUiState.collectAsStateWithLifecycle().value
             RickyMortyTheme {
@@ -34,9 +34,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun getAllCharacters(){
+    private fun getAllCharacters() {
         characterViewModel.getAllCharacters()
     }
 }
-
-
