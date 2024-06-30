@@ -71,8 +71,8 @@ dependencies {
 
     // Retrofit
     implementation(libs.retrofit)
-    implementation(libs.converter.kotlinx.serialization)
-//    implementation(libs.retrofit2.kotlinx.serialization.converter)
+//    implementation(libs.converter.kotlinx.serialization)
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
 
     implementation(platform(libs.okHttp3.bom))
 
@@ -81,6 +81,7 @@ dependencies {
 
     // Kotlinx Serialization
     implementation(libs.kotlinx.serialization.json)
+
 
     // Koin
     implementation(platform(libs.koin.bom))
@@ -100,6 +101,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.truth)
     testImplementation(libs.turbine)
 }
