@@ -9,7 +9,7 @@ import com.beatrice.rickymorty.domain.model.Character
 import com.beatrice.rickymorty.domain.repository.CharacterRepository
 import kotlinx.coroutines.flow.Flow
 
-private const val PAGE_SIZE = 20
+private const val PAGE_SIZE = 30
 class CharacterRepositoryImpl(
     private val apiService: CharacterApiService
 ) : CharacterRepository {
@@ -18,7 +18,7 @@ class CharacterRepositoryImpl(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
                 maxSize = PAGE_SIZE + (PAGE_SIZE * 2),
-                enablePlaceholders = false
+                enablePlaceholders = true,
             ),
             pagingSourceFactory = { CharacterPagingSource(apiService) }
         ).flow

@@ -1,21 +1,32 @@
 package com.beatrice.rickymorty.presentation.ui.screens
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import com.beatrice.rickymorty.domain.model.Character
+import com.beatrice.rickymorty.presentation.ui.components.ShowBottomLoadingIndicator
 import com.beatrice.rickymorty.presentation.ui.components.ShowCharactersList
 import com.beatrice.rickymorty.presentation.ui.components.ShowErrorMessage
-import com.beatrice.rickymorty.presentation.ui.components.ShowLoadingIndicator
-import com.beatrice.rickymorty.presentation.viewmodel.CharacterUiState
+import com.beatrice.rickymorty.presentation.ui.components.ShowErrorMessageWithRefresh
+import com.beatrice.rickymorty.presentation.ui.components.ShowLoadingIndicatorWithText
+import com.beatrice.rickymorty.presentation.viewmodel.CharacterViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun CharactersScreen(
-    uiState: CharacterUiState,
-    modifier: Modifier = Modifier
+    uiState: LazyPagingItems<Character>,
+    modifier: Modifier = Modifier,
+    onRetry: () -> Unit
 ) {
     Scaffold(
         modifier = modifier.padding(16.dp),
@@ -23,30 +34,62 @@ fun CharactersScreen(
             Text(text = "Ricky and Morty")
         }
     ) { contentPadding ->
-        when (uiState) {
-            is CharacterUiState.Loading -> ShowLoadingIndicator(
-                modifier = Modifier.padding(contentPadding)
+        val loadState = uiState.loadState
+        if (loadState.refresh == LoadState.Loading) {
+            ShowLoadingIndicatorWithText(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(contentPadding)
             )
-            is CharacterUiState.Characters -> {
+        }
 
-                ShowCharactersList(
-                    characters = uiState.data,
-                    modifier = Modifier.padding(contentPadding)
+
+        ShowCharactersList(
+            characters = uiState,
+            modifier = Modifier.padding(contentPadding)
+        )
+        if (loadState.append == LoadState.Loading) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+                contentAlignment = Alignment.Center
+            ) {
+                ShowBottomLoadingIndicator(
+                    modifier.align(alignment = Alignment.BottomCenter)
                 )
             }
-            is CharacterUiState.Error -> ShowErrorMessage(
-                message = uiState.errorMessage,
-                modifier = Modifier.padding(contentPadding)
-            )
+        }
 
-            is CharacterUiState.Empty -> ShowErrorMessage(
-                message = uiState.message,
-                textColor = Color.DarkGray,
-                modifier = Modifier.padding(contentPadding)
-            )
-            else -> {
-                // do nothing
+        if (loadState.refresh is LoadState.Error || loadState.append is LoadState.Error) {
+            val isPaginatingError = (loadState.append is LoadState.Error) || uiState.itemCount > 1
+            val error = if (loadState.append is LoadState.Error) {
+                (loadState.append as LoadState.Error).error
+            } else {
+                (loadState.refresh as LoadState.Error).error
             }
+            if (isPaginatingError) {
+                Box(
+                    modifier = Modifier.fillMaxHeight()
+                ) {
+                    ShowErrorMessage(
+                        message = error.message ?: "Something went wrong",
+                        modifier = Modifier
+                            .padding(contentPadding)
+                            .align(alignment = Alignment.BottomCenter)
+                    )
+                }
+            } else {
+
+                ShowErrorMessageWithRefresh(
+                    message = error.message ?: "Something went wrong",
+                    modifier = Modifier.fillMaxSize(),
+                    onRetry = onRetry
+                )
+            }
+
         }
     }
+
 }
+
