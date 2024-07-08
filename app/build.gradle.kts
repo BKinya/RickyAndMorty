@@ -94,6 +94,10 @@ dependencies {
     // logcat
     implementation(libs.logcat)
 
+    // paging
+    implementation(libs.androidx.paging.runtime)
+
+
     // testing
     testImplementation(libs.junit)
     debugImplementation(libs.androidx.ui.tooling)

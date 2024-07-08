@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flow
 class FakeCharacterRepository : CharacterRepository {
 
     var isRequestSuccessful = true
-    override fun getAllCharacters(): Flow<NetworkResult<List<Character>?>> = flow {
+    override fun getAllCharacters(): Flow<NetworkResult<List<Character>>> = flow {
         if (isRequestSuccessful) {
             emit(NetworkResult.Success(characters))
         } else {

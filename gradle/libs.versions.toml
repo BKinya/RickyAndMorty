@@ -13,6 +13,7 @@ detekt = "1.23.6"
 lifecycleRuntimeCompose = "2.8.2"
 logcat = "0.1"
 okHttp3 = "4.12.0"
+pagingRuntime = "3.3.0"
 retrofit = "2.11.0"
 retrofit2KotlinxSerializationConverter = "1.0.0"
 truth = "1.4.3"
@@ -20,6 +21,7 @@ turbine = "1.1.0"
 
 [libraries]
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
+androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "pagingRuntime" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 converter-kotlinx-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

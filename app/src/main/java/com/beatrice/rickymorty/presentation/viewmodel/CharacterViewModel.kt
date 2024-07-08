@@ -29,13 +29,7 @@ class CharacterViewModel(
                     when (result) {
                         is NetworkResult.Success -> {
                             val characters = result.data
-                            if (characters == null) {
-                                _characterUiState.value = CharacterUiState.Error(GENERAL_SERVER_ERROR)
-                            } else if (characters.isEmpty()) {
-                                _characterUiState.value = CharacterUiState.Empty(message = "No Characters found")
-                            } else {
-                                _characterUiState.value = CharacterUiState.Characters(data = characters)
-                            }
+                            _characterUiState.value = CharacterUiState.Characters(data = characters)
                         }
 
                         is NetworkResult.Error -> _characterUiState.value = CharacterUiState.Error(result.errorMessage)

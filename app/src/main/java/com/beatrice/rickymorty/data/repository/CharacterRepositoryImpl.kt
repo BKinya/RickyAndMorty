@@ -12,11 +12,12 @@ import kotlinx.coroutines.flow.flow
 class CharacterRepositoryImpl(
     private val apiService: CharacterService
 ) : CharacterRepository {
-    override fun getAllCharacters(): Flow<NetworkResult<List<Character>?>> = flow {
+    override fun getAllCharacters(): Flow<NetworkResult<List<Character>>> = flow {
         val response = safeApiRequest { apiService.getAllCharacters() }
+
         val result = when (response) {
             is NetworkResult.Success -> {
-                val characters = response.data?.toDomain()
+                val characters = response.data.toDomain()
                 NetworkResult.Success(data = characters)
             }
             is NetworkResult.Error -> NetworkResult.Error(response.errorMessage)
