@@ -5,5 +5,5 @@ import com.beatrice.rickymorty.domain.model.Character
 import kotlinx.coroutines.flow.Flow
 
 interface CharacterRepository {
-    fun getAllCharacters(): Flow<NetworkResult<List<Character>?>>
+    fun getAllCharacters(): Flow<NetworkResult<List<Character>>>
 }

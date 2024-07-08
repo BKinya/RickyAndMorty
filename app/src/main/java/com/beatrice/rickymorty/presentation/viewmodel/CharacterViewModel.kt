@@ -2,7 +2,6 @@ package com.beatrice.rickymorty.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.beatrice.rickymorty.data.network.util.GENERAL_SERVER_ERROR
 import com.beatrice.rickymorty.data.network.util.NetworkResult
 import com.beatrice.rickymorty.domain.repository.CharacterRepository
 import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterEvent
@@ -22,6 +21,7 @@ class CharacterViewModel(
 ) : ViewModel() {
 
     private val timeCapsule = CharacterTimeTravelCapsule<CharacterUiState>()
+
     private val _characterUiState: MutableStateFlow<CharacterUiState> = MutableStateFlow(CharacterUiState.Initial)
     val characterUiState = _characterUiState.asStateFlow()
 
@@ -47,6 +47,7 @@ class CharacterViewModel(
                     null -> {
                         // Do nothing
                     }
+
                     is CharacterSideEffect.FetchCharacters -> fetchAllCharacters()
                 }
             }
@@ -60,13 +61,7 @@ class CharacterViewModel(
                     when (result) {
                         is NetworkResult.Success -> {
                             val characters = result.data
-                            if (characters == null) {
-                                sendEVent(CharacterEvent.FetchCharacterFailed(GENERAL_SERVER_ERROR))
-                            } else if (characters.isEmpty()) {
-                                sendEVent(CharacterEvent.NoCharacterFound(message = "No Characters found"))
-                            } else {
-                                sendEVent(CharacterEvent.FetchCharacterSuccessful(characters = characters))
-                            }
+                            sendEVent(CharacterEvent.FetchCharacterSuccessful(characters = characters))
                         }
 
                         is NetworkResult.Error -> sendEVent(CharacterEvent.FetchCharacterFailed(result.errorMessage))
