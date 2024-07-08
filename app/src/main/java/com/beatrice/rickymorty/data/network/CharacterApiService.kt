@@ -3,10 +3,10 @@ package com.beatrice.rickymorty.data.network
 import com.beatrice.rickymorty.data.network.models.CharacterResponse
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Query
 
-interface CharacterService {
+interface CharacterApiService {
 
-    // TODO 1: Pagination ???
     @GET("character")
-    suspend fun getAllCharacters(): Response<CharacterResponse>
+    suspend fun getCharacters(@Query("page") page: Int): CharacterResponse
 }

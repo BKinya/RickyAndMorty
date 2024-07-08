@@ -3,7 +3,7 @@ package com.beatrice.rickymorty.data.network.models
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Result(
+data class CharacterInfo(
     val created: String,
     val episode: List<String>,
     val gender: String,

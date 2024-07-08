@@ -1,7 +1,7 @@
 package com.beatrice.rickymorty.di
 
 import com.beatrice.rickymorty.BuildConfig
-import com.beatrice.rickymorty.data.network.CharacterService
+import com.beatrice.rickymorty.data.network.CharacterApiService
 import com.beatrice.rickymorty.data.repository.CharacterRepositoryImpl
 import com.beatrice.rickymorty.domain.repository.CharacterRepository
 import com.beatrice.rickymorty.presentation.viewmodel.CharacterViewModel
@@ -54,4 +54,4 @@ fun createLoggingInterceptor(): OkHttpClient {
     return OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
 }
 
-fun createCharacterService(retrofit: Retrofit): CharacterService = retrofit.create(CharacterService::class.java)
+fun createCharacterService(retrofit: Retrofit): CharacterApiService = retrofit.create(CharacterApiService::class.java)

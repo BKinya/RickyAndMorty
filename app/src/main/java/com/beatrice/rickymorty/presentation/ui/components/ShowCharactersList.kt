@@ -4,17 +4,21 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.beatrice.rickymorty.domain.model.Character
+import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun ShowCharactersList(
     modifier: Modifier = Modifier,
-    characters: List<Character>
+    characters: Flow<PagingData<Character>>
 ) {
+    val characterPagingItems = characters.collectAsLazyPagingItems()
+
     LazyVerticalGrid(
         modifier = modifier,
         columns = GridCells.Fixed(2),
@@ -22,8 +26,11 @@ fun ShowCharactersList(
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        items(characters) { character ->
-            CharacterComponent(character = character)
+        items(characterPagingItems.itemCount) { index->
+            val character = characterPagingItems[index]
+            character?. let {
+                CharacterComponent(character =character )
+            }
         }
     }
 }

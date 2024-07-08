@@ -1,6 +1,6 @@
 package com.beatrice.rickymorty.util.fakes
 
-import com.beatrice.rickymorty.data.network.CharacterService
+import com.beatrice.rickymorty.data.network.CharacterApiService
 import com.beatrice.rickymorty.data.network.models.CharacterResponse
 import com.beatrice.rickymorty.util.resources.charactersJson
 import com.beatrice.rickymorty.util.resources.errorFetchingCharacters
@@ -9,7 +9,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Response
 
-class FakeCharacterService : CharacterService {
+class FakeCharacterApiService : CharacterApiService {
     var isFetchCharactersSuccesfull = true
     override suspend fun getAllCharacters(): Response<CharacterResponse> {
         return if (isFetchCharactersSuccesfull) {

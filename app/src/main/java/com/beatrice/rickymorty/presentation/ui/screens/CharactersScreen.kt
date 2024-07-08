@@ -27,10 +27,13 @@ fun CharactersScreen(
             is CharacterUiState.Loading -> ShowLoadingIndicator(
                 modifier = Modifier.padding(contentPadding)
             )
-            is CharacterUiState.Characters -> ShowCharactersList(
-                characters = uiState.data,
-                modifier = Modifier.padding(contentPadding)
-            )
+            is CharacterUiState.Characters -> {
+
+                ShowCharactersList(
+                    characters = uiState.data,
+                    modifier = Modifier.padding(contentPadding)
+                )
+            }
             is CharacterUiState.Error -> ShowErrorMessage(
                 message = uiState.errorMessage,
                 modifier = Modifier.padding(contentPadding)

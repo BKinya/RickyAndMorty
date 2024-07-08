@@ -3,14 +3,14 @@ package com.beatrice.rickymorty.repository
 import com.beatrice.rickymorty.data.network.util.GENERAL_SERVER_ERROR
 import com.beatrice.rickymorty.data.network.util.NetworkResult
 import com.beatrice.rickymorty.data.repository.CharacterRepositoryImpl
-import com.beatrice.rickymorty.util.fakes.FakeCharacterService
+import com.beatrice.rickymorty.util.fakes.FakeCharacterApiService
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class CharacterRepositoryTest {
-    private val apiService = FakeCharacterService()
+    private val apiService = FakeCharacterApiService()
 
     private val repository = CharacterRepositoryImpl(apiService = apiService)
 
