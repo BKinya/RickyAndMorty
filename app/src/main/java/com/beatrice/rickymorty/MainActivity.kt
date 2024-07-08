@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
                     CharactersScreen(
                         uiState = uiState,
                         onRetry = {
-                            characterViewModel.getAllCharacters()
+                           // TODO
                         }
                     )
                 }

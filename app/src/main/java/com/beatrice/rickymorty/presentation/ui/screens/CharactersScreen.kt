@@ -33,6 +33,10 @@ fun CharactersScreen(
         }
     ) { contentPadding ->
         val loadState = uiState.loadState
+        /**
+         * TODO: 1
+         * State 1: FETCHING ALL CHARACTERS
+         */
         if (loadState.refresh == LoadState.Loading) {
             ShowLoadingIndicatorWithText(
                 modifier = Modifier
@@ -41,10 +45,17 @@ fun CharactersScreen(
             )
         }
 
+        /**
+         * STATE 2: SHOW CHARACTERS
+         */
         ShowCharactersList(
             characters = uiState,
             modifier = Modifier.padding(contentPadding)
         )
+        /**
+         * LOAD MORE CHARACTERS... it's a side effect but remember the paging library will handle that for you
+         * and return a specific state
+         */
         if (loadState.append == LoadState.Loading) {
             Box(
                 modifier = Modifier
@@ -57,6 +68,13 @@ fun CharactersScreen(
                 )
             }
         }
+        /**
+         * The other thing is Errors
+         * The errors
+         * WHAT ERRORS...
+         * Loading data failed for whatever reason
+         * loading more data failed
+         */
 
         if (loadState.refresh is LoadState.Error || loadState.append is LoadState.Error) {
             val isPaginatingError = (loadState.append is LoadState.Error) || uiState.itemCount > 1
