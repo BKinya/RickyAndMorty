@@ -99,7 +99,6 @@ dependencies {
     implementation(libs.androidx.paging.runtime)
     implementation(libs.androidx.paging.compose)
 
-
     // testing
     testImplementation(libs.junit)
     debugImplementation(libs.androidx.ui.tooling)

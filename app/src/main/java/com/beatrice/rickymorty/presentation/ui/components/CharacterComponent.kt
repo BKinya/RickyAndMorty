@@ -32,7 +32,8 @@ fun CharacterComponent(
     Box(
         modifier = modifier.background(
             color = Color.LightGray,
-            shape = RoundedCornerShape(20.dp))
+            shape = RoundedCornerShape(20.dp)
+        )
             .padding(14.dp)
             .height(200.dp)
     ) {

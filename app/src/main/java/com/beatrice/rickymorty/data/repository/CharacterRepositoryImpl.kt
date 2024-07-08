@@ -18,7 +18,7 @@ class CharacterRepositoryImpl(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
                 maxSize = PAGE_SIZE + (PAGE_SIZE * 2),
-                enablePlaceholders = true,
+                enablePlaceholders = true
             ),
             pagingSourceFactory = { CharacterPagingSource(apiService) }
         ).flow

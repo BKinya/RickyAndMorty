@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -25,7 +24,7 @@ fun ShowErrorMessageWithRefresh(
     modifier: Modifier = Modifier,
     message: String,
     textColor: Color = Color.Red,
-    onRetry: () -> Unit,
+    onRetry: () -> Unit
 ) {
     Column(
         modifier = modifier,
@@ -40,7 +39,7 @@ fun ShowErrorMessageWithRefresh(
                 fontFamily = FontFamily.Serif,
                 color = textColor,
                 fontWeight = FontWeight.SemiBold
-            ),
+            )
         )
         Spacer(modifier = Modifier.height(14.dp))
         Button(

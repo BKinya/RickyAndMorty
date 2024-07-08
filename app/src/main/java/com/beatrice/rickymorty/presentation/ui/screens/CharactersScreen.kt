@@ -19,8 +19,6 @@ import com.beatrice.rickymorty.presentation.ui.components.ShowCharactersList
 import com.beatrice.rickymorty.presentation.ui.components.ShowErrorMessage
 import com.beatrice.rickymorty.presentation.ui.components.ShowErrorMessageWithRefresh
 import com.beatrice.rickymorty.presentation.ui.components.ShowLoadingIndicatorWithText
-import com.beatrice.rickymorty.presentation.viewmodel.CharacterViewModel
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun CharactersScreen(
@@ -42,7 +40,6 @@ fun CharactersScreen(
                     .padding(contentPadding)
             )
         }
-
 
         ShowCharactersList(
             characters = uiState,
@@ -80,16 +77,12 @@ fun CharactersScreen(
                     )
                 }
             } else {
-
                 ShowErrorMessageWithRefresh(
                     message = error.message ?: "Something went wrong",
                     modifier = Modifier.fillMaxSize(),
                     onRetry = onRetry
                 )
             }
-
         }
     }
-
 }
-

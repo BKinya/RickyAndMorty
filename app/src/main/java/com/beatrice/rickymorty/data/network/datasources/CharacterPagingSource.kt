@@ -10,15 +10,14 @@ import com.beatrice.rickymorty.domain.model.Character
 import logcat.logcat
 import okio.IOException
 
-
 private const val STARTING_PAGE_INDEX = 1
 class CharacterPagingSource(
     private val apiService: CharacterApiService
-): PagingSource<Int, Character>() {
+) : PagingSource<Int, Character>() {
     override fun getRefreshKey(state: PagingState<Int, Character>): Int? {
         return state.anchorPosition?.let { anchorPos ->
-            val anchorPage = state.closestPageToPosition(anchorPosition = anchorPos )
-            anchorPage?.prevKey?.plus(1)?: anchorPage?.nextKey?.minus(1)
+            val anchorPage = state.closestPageToPosition(anchorPosition = anchorPos)
+            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
         }
     }
 
@@ -28,18 +27,17 @@ class CharacterPagingSource(
             val characters = apiService.getCharacters(page = page).characterInfos
             LoadResult.Page(
                 data = characters.toDomain(),
-                nextKey = if ( characters.isEmpty()) null else page + 1,
-                prevKey = if (page == STARTING_PAGE_INDEX) null else page -1
+                nextKey = if (characters.isEmpty()) null else page + 1,
+                prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1
             )
-        }catch (exc: IOException){
+        } catch (exc: IOException) {
             logcat { "$NO_INTERNET => ${exc.message}" }
             val exception = IOException(NO_INTERNET)
             LoadResult.Error(exception)
-        } catch (exc: Exception){
+        } catch (exc: Exception) {
             logcat { "$GENERAL_SERVER_ERROR => ${exc.message}" }
             val exception = Exception(GENERAL_SERVER_ERROR)
             LoadResult.Error(exception)
         }
-
     }
 }

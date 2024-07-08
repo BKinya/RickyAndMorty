@@ -16,15 +16,14 @@ class CharacterViewModel(
     private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    private var _characters: MutableStateFlow<PagingData<Character>> = MutableStateFlow(PagingData.empty())
-    val pagedCharacters get() = _characters.asStateFlow()
+    private var characters: MutableStateFlow<PagingData<Character>> = MutableStateFlow(PagingData.empty())
+    val pagedCharacters get() = characters.asStateFlow()
 
-    fun getAllCharacters(){
+    fun getAllCharacters() {
         viewModelScope.launch(dispatcher) {
             characterRepository.getAllCharacters().collectLatest { data ->
-                _characters.value = data
+                characters.value = data
             }
         }
     }
-
 }

@@ -7,11 +7,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
 import com.beatrice.rickymorty.domain.model.Character
-import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun ShowCharactersList(
@@ -25,10 +22,10 @@ fun ShowCharactersList(
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        items(characters.itemCount) { index->
+        items(characters.itemCount) { index ->
             val character = characters[index]
             character?. let {
-                CharacterComponent(character =character )
+                CharacterComponent(character = character)
             }
         }
     }
