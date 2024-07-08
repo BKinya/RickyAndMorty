@@ -18,6 +18,7 @@ fun ShowCharactersList(
     characters: Flow<PagingData<Character>>
 ) {
     val characterPagingItems = characters.collectAsLazyPagingItems()
+    characterPagingItems.loadState.refresh
 
     LazyVerticalGrid(
         modifier = modifier,
