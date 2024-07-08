@@ -7,6 +7,8 @@ import com.beatrice.rickymorty.domain.model.Character
 import com.beatrice.rickymorty.domain.repository.CharacterRepository
 import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterEvent
 import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterSideEffect
+import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterTimeTravelCapsule
+import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterUiState
 import com.beatrice.rickymorty.presentation.viewmodel.state.StateMachine
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,43 +22,48 @@ class CharacterViewModel(
     private val stateMachine: StateMachine
 ) : ViewModel() {
 
+
     private var characters: MutableStateFlow<PagingData<Character>> = MutableStateFlow(PagingData.empty())
     val pagedCharacters get() = characters.asStateFlow()
 
+    private val timeCapsule = CharacterTimeTravelCapsule<CharacterUiState>()
+    private val _characterUiState: MutableStateFlow<CharacterUiState> = MutableStateFlow(CharacterUiState.Initial)
+    val characterUiState = _characterUiState.asStateFlow()
 
-    /**
-     * State flow or shared flow
-     */
+
     private val sideEffects: MutableStateFlow<CharacterSideEffect?> = MutableStateFlow(null)
 
     init {
         handleSideEffects()
     }
 
-    fun sendEVent(event: CharacterEvent){
+    fun sendEVent(event: CharacterEvent) {
         viewModelScope.launch(dispatcher) {
             val output = stateMachine.onEvent(event)
+
 //            _characterUiState.value = output.state
+
+            timeCapsule.addState(output.state)
+            _characterUiState.value = output.state
+
             sideEffects.value = output.sideEffect
         }
     }
 
-
-   private fun handleSideEffects(){
+    private fun handleSideEffects() {
         viewModelScope.launch(dispatcher) {
-            sideEffects.collect{ effect ->
-                when(effect){
+            sideEffects.collect { effect ->
+                when (effect) {
                     null -> {
                         // Do nothing
                     }
                     is CharacterSideEffect.FetchCharacters -> fetchAllCharacters()
                 }
-
             }
         }
     }
 
-   private fun fetchAllCharacters() {
+    private fun fetchAllCharacters() {
         viewModelScope.launch(dispatcher) {
             characterRepository.getAllCharacters().collectLatest { data ->
                 characters.value = data
