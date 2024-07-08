@@ -1,7 +1,6 @@
 package com.beatrice.rickymorty.data.util
 
 import com.beatrice.rickymorty.data.network.models.CharacterInfo
-import com.beatrice.rickymorty.data.network.models.CharacterResponse
 import com.beatrice.rickymorty.domain.model.Character
 
 fun List<CharacterInfo>.toDomain(): List<Character> {

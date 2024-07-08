@@ -7,15 +7,15 @@ import retrofit2.Response
 
 
 inline fun <T> safeApiRequest(
-  block:  () -> Response<T>
+    block: () -> Response<T>
 ): NetworkResult<T> {
     return try {
         val response = block()
-        if (response.isSuccessful && response.body() != null){
+        if (response.isSuccessful && response.body() != null) {
             val data = response.body()!!
             NetworkResult.Success(data = data)
-        }else{
-            logcat(SERVER_ERROR_TAG){"Something Went Wrong. Error is => ${response.errorBody()}"}
+        } else {
+            logcat(SERVER_ERROR_TAG) { "Something Went Wrong. Error is => ${response.errorBody()}" }
             NetworkResult.Error(GENERAL_SERVER_ERROR)
         }
     } catch (e: IOException) {

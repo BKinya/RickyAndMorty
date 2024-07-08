@@ -33,9 +33,9 @@ fun CharacterComponent(
         modifier = modifier.background(
             color = Color.LightGray,
             shape = RoundedCornerShape(20.dp)
-
         )
             .padding(14.dp)
+            .height(200.dp)
     ) {
         Column(
             modifier = modifier,

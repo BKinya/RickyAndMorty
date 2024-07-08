@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import logcat.logcat
 
-private const val PAGE_SIZE = 20
+private const val PAGE_SIZE = 30
 class CharacterRepositoryImpl(
     private val apiService: CharacterApiService
 ) : CharacterRepository {
@@ -21,7 +21,7 @@ class CharacterRepositoryImpl(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
                 maxSize = PAGE_SIZE + (PAGE_SIZE * 2),
-                enablePlaceholders = false
+                enablePlaceholders = true
             ),
             pagingSourceFactory = { CharacterPagingSource(apiService) }
         )

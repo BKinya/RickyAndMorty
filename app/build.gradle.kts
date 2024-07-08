@@ -85,6 +85,7 @@ dependencies {
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
 
     implementation(libs.androidx.lifecycle.runtime.compose)
 
@@ -97,7 +98,6 @@ dependencies {
     // paging
     implementation(libs.androidx.paging.runtime)
     implementation(libs.androidx.paging.compose)
-
 
     // testing
     testImplementation(libs.junit)
