@@ -2,8 +2,6 @@ package com.beatrice.rickymorty.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
-import com.beatrice.rickymorty.domain.model.Character
 import com.beatrice.rickymorty.domain.repository.CharacterRepository
 import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterEvent
 import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterSideEffect
@@ -13,8 +11,9 @@ import com.beatrice.rickymorty.presentation.viewmodel.state.StateMachine
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+// TODO: Move this state to state machine
+// Implement searching a character
 
 class CharacterViewModel(
     private val characterRepository: CharacterRepository,
@@ -22,14 +21,10 @@ class CharacterViewModel(
     private val stateMachine: StateMachine
 ) : ViewModel() {
 
-
-    private var characters: MutableStateFlow<PagingData<Character>> = MutableStateFlow(PagingData.empty())
-    val pagedCharacters get() = characters.asStateFlow()
-
     private val timeCapsule = CharacterTimeTravelCapsule<CharacterUiState>()
+
     private val _characterUiState: MutableStateFlow<CharacterUiState> = MutableStateFlow(CharacterUiState.Initial)
     val characterUiState = _characterUiState.asStateFlow()
-
 
     private val sideEffects: MutableStateFlow<CharacterSideEffect?> = MutableStateFlow(null)
 
@@ -40,13 +35,10 @@ class CharacterViewModel(
     fun sendEVent(event: CharacterEvent) {
         viewModelScope.launch(dispatcher) {
             val output = stateMachine.onEvent(event)
-
-//            _characterUiState.value = output.state
+            _characterUiState.value = output.state
+            sideEffects.value = output.sideEffect
 
             timeCapsule.addState(output.state)
-            _characterUiState.value = output.state
-
-            sideEffects.value = output.sideEffect
         }
     }
 
@@ -57,6 +49,7 @@ class CharacterViewModel(
                     null -> {
                         // Do nothing
                     }
+
                     is CharacterSideEffect.FetchCharacters -> fetchAllCharacters()
                 }
             }
@@ -65,9 +58,8 @@ class CharacterViewModel(
 
     private fun fetchAllCharacters() {
         viewModelScope.launch(dispatcher) {
-            characterRepository.getAllCharacters().collectLatest { data ->
-                characters.value = data
-            }
+            val pagingData = characterRepository.getAllCharacters()
+            sendEVent(CharacterEvent.OnFetchingCharacters(pagingData))
         }
     }
 }

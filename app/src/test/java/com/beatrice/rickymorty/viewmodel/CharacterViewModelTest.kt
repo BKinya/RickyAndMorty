@@ -27,7 +27,7 @@ class CharacterViewModelTest {
     fun `test ui state updates correctly when fetching characters is successful`() = runTest {
         characterViewModel.characterUiState.test {
             assertEquals(CharacterUiState.Initial, awaitItem())
-            characterViewModel.sendEVent(CharacterEvent.FetchAllCharacters)
+            characterViewModel.sendEVent(CharacterEvent.OnFetchCharacters)
             assertEquals(CharacterUiState.Loading, awaitItem())
             assertEquals(CharacterUiState.Characters(characters), awaitItem())
         }
@@ -38,7 +38,7 @@ class CharacterViewModelTest {
         repository.isRequestSuccessful = false
         characterViewModel.characterUiState.test {
             assertEquals(CharacterUiState.Initial, awaitItem())
-            characterViewModel.sendEVent(CharacterEvent.FetchAllCharacters)
+            characterViewModel.sendEVent(CharacterEvent.OnFetchCharacters)
             assertEquals(CharacterUiState.Loading, awaitItem())
             assertEquals(CharacterUiState.Error(GENERAL_SERVER_ERROR), awaitItem())
         }

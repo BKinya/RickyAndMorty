@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.beatrice.rickymorty.presentation.theme.RickyMortyTheme
 import com.beatrice.rickymorty.presentation.ui.screens.CharactersScreen
 import com.beatrice.rickymorty.presentation.viewmodel.CharacterViewModel
@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         onFetchCharacters()
         setContent {
-            val uiState = characterViewModel.pagedCharacters.collectAsLazyPagingItems()
+            val uiState = characterViewModel.characterUiState.collectAsStateWithLifecycle().value
             RickyMortyTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -30,9 +30,8 @@ class MainActivity : ComponentActivity() {
                 ) {
                     CharactersScreen(
                         uiState = uiState,
-                        onRetry = {
-                           // TODO
-                        }
+                        onRetry = ::onFetchCharacters
+
                     )
                 }
             }
@@ -40,6 +39,6 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun onFetchCharacters() {
-        characterViewModel.sendEVent(CharacterEvent.FetchAllCharacters)
+        characterViewModel.sendEVent(CharacterEvent.OnFetchCharacters)
     }
 }

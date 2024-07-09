@@ -5,7 +5,6 @@ import logcat.logcat
 import okio.IOException
 import retrofit2.Response
 
-
 inline fun <T> safeApiRequest(
     block: () -> Response<T>
 ): NetworkResult<T> {

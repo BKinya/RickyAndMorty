@@ -1,28 +1,18 @@
 package com.beatrice.rickymorty.presentation.ui.screens
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.paging.LoadState
-import androidx.paging.compose.LazyPagingItems
-import com.beatrice.rickymorty.domain.model.Character
-import com.beatrice.rickymorty.presentation.ui.components.ShowBottomLoadingIndicator
-import com.beatrice.rickymorty.presentation.ui.components.ShowCharactersList
-import com.beatrice.rickymorty.presentation.ui.components.ShowErrorMessage
-import com.beatrice.rickymorty.presentation.ui.components.ShowErrorMessageWithRefresh
+import com.beatrice.rickymorty.presentation.ui.components.ShowCharactersPagedData
 import com.beatrice.rickymorty.presentation.ui.components.ShowLoadingIndicatorWithText
+import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterUiState
 
 @Composable
 fun CharactersScreen(
-    uiState: LazyPagingItems<Character>,
+    uiState: CharacterUiState,
     modifier: Modifier = Modifier,
     onRetry: () -> Unit
 ) {
@@ -32,74 +22,22 @@ fun CharactersScreen(
             Text(text = "Ricky and Morty")
         }
     ) { contentPadding ->
-        val loadState = uiState.loadState
-        /**
-         * TODO: 1
-         * State 1: FETCHING ALL CHARACTERS
-         */
-        if (loadState.refresh == LoadState.Loading) {
-            ShowLoadingIndicatorWithText(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(contentPadding)
-            )
-        }
-
-        /**
-         * STATE 2: SHOW CHARACTERS
-         */
-        ShowCharactersList(
-            characters = uiState,
-            modifier = Modifier.padding(contentPadding)
-        )
-        /**
-         * LOAD MORE CHARACTERS... it's a side effect but remember the paging library will handle that for you
-         * and return a specific state
-         */
-        if (loadState.append == LoadState.Loading) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
-                contentAlignment = Alignment.Center
-            ) {
-                ShowBottomLoadingIndicator(
-                    modifier.align(alignment = Alignment.BottomCenter)
+        when (uiState) {
+            is CharacterUiState.Loading -> {
+                ShowLoadingIndicatorWithText(
+                    modifier = Modifier.padding(contentPadding)
                 )
             }
-        }
-        /**
-         * The other thing is Errors
-         * The errors
-         * WHAT ERRORS...
-         * Loading data failed for whatever reason
-         * loading more data failed
-         */
-
-        if (loadState.refresh is LoadState.Error || loadState.append is LoadState.Error) {
-            val isPaginatingError = (loadState.append is LoadState.Error) || uiState.itemCount > 1
-            val error = if (loadState.append is LoadState.Error) {
-                (loadState.append as LoadState.Error).error
-            } else {
-                (loadState.refresh as LoadState.Error).error
-            }
-            if (isPaginatingError) {
-                Box(
-                    modifier = Modifier.fillMaxHeight()
-                ) {
-                    ShowErrorMessage(
-                        message = error.message ?: "Something went wrong",
-                        modifier = Modifier
-                            .padding(contentPadding)
-                            .align(alignment = Alignment.BottomCenter)
-                    )
-                }
-            } else {
-                ShowErrorMessageWithRefresh(
-                    message = error.message ?: "Something went wrong",
-                    modifier = Modifier.fillMaxSize(),
+            is CharacterUiState.CharacterPagedData -> {
+                val characters = uiState.data
+                ShowCharactersPagedData(
+                    characters = characters,
                     onRetry = onRetry
                 )
+            }
+
+            else -> {
+                // do nothing
             }
         }
     }
