@@ -1,18 +1,11 @@
 package com.beatrice.rickymorty.presentation.viewmodel.state
 
-data class Output(val state: CharacterUiState, val sideEffect: CharacterSideEffect? = null)
+import kotlinx.coroutines.flow.StateFlow
 
-class StateMachine {
-    fun onEvent(characterEvent: CharacterEvent): Output {
-        return when (characterEvent) {
-            is CharacterEvent.OnFetchCharacters -> Output(
-                state = CharacterUiState.Loading,
-                sideEffect = CharacterSideEffect.FetchCharacters
-            )
+data class StateOutput<State, SideEffect>(val state: State, val sideEffect: SideEffect? = null)
 
-            is CharacterEvent.OnFetchingCharacters -> Output(
-                state = CharacterUiState.CharacterPagedData(characterEvent.characters)
-            )
-        }
-    }
+interface StateMachine<State, Event, SideEffect> {
+
+    val state: StateFlow<StateOutput<State, SideEffect?>>
+    fun accept(event: Event)
 }

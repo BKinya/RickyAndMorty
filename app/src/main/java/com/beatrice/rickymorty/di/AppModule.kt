@@ -5,6 +5,7 @@ import com.beatrice.rickymorty.data.network.CharacterApiService
 import com.beatrice.rickymorty.data.repository.CharacterRepositoryImpl
 import com.beatrice.rickymorty.domain.repository.CharacterRepository
 import com.beatrice.rickymorty.presentation.viewmodel.CharacterViewModel
+import com.beatrice.rickymorty.presentation.viewmodel.state.DefaultStateMachine
 import com.beatrice.rickymorty.presentation.viewmodel.state.StateMachine
 import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.json.Json
@@ -12,6 +13,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -24,7 +26,8 @@ val appModules = module {
     factory<CharacterRepository> { CharacterRepositoryImpl(apiService = get()) }
 
     factory { Dispatchers.IO }
-    factory { StateMachine() }
+    // singleOf(::UpdateMovieUseCase) { bind<UseCase<MovieDomainModel, Unit>>() }
+
     viewModel {
         CharacterViewModel(
             dispatcher = get(),

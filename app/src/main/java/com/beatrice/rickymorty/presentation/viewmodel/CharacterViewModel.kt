@@ -6,7 +6,7 @@ import com.beatrice.rickymorty.domain.repository.CharacterRepository
 import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterEvent
 import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterSideEffect
 import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterTimeTravelCapsule
-import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterUiState
+import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterState
 import com.beatrice.rickymorty.presentation.viewmodel.state.StateMachine
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,14 +18,10 @@ import kotlinx.coroutines.launch
 class CharacterViewModel(
     private val characterRepository: CharacterRepository,
     private val dispatcher: CoroutineDispatcher,
-    private val stateMachine: StateMachine
+    private val stateMachine: StateMachine<CharacterState, CharacterEvent, CharacterSideEffect>
 ) : ViewModel() {
 
-    private val timeCapsule = CharacterTimeTravelCapsule<CharacterUiState>()
-
-    private val _characterUiState: MutableStateFlow<CharacterUiState> = MutableStateFlow(CharacterUiState.Initial)
-    val characterUiState = _characterUiState.asStateFlow()
-
+    private val timeCapsule = CharacterTimeTravelCapsule<CharacterState>()
     private val sideEffects: MutableStateFlow<CharacterSideEffect?> = MutableStateFlow(null)
 
     init {
@@ -35,7 +31,7 @@ class CharacterViewModel(
     fun sendEVent(event: CharacterEvent) {
         viewModelScope.launch(dispatcher) {
             val output = stateMachine.onEvent(event)
-            _characterUiState.value = output.state
+            _characterState.value = output.state
             sideEffects.value = output.sideEffect
 
             timeCapsule.addState(output.state)

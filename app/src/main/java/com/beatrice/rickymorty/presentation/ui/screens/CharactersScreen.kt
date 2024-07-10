@@ -8,11 +8,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.beatrice.rickymorty.presentation.ui.components.ShowCharactersPagedData
 import com.beatrice.rickymorty.presentation.ui.components.ShowLoadingIndicatorWithText
-import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterUiState
+import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterState
 
 @Composable
 fun CharactersScreen(
-    uiState: CharacterUiState,
+    uiState: CharacterState,
     modifier: Modifier = Modifier,
     onRetry: () -> Unit
 ) {
@@ -23,12 +23,12 @@ fun CharactersScreen(
         }
     ) { contentPadding ->
         when (uiState) {
-            is CharacterUiState.Loading -> {
+            is CharacterState.Loading -> {
                 ShowLoadingIndicatorWithText(
                     modifier = Modifier.padding(contentPadding)
                 )
             }
-            is CharacterUiState.CharacterPagedData -> {
+            is CharacterState.CharacterPagedData -> {
                 val characters = uiState.data
                 ShowCharactersPagedData(
                     characters = characters,

@@ -4,11 +4,11 @@ import androidx.paging.PagingData
 import com.beatrice.rickymorty.domain.model.Character
 import kotlinx.coroutines.flow.Flow
 
-sealed interface CharacterUiState {
-    data object Initial : CharacterUiState
-    data object Loading : CharacterUiState
+sealed interface CharacterState {
+    data object Initial : CharacterState
+    data object Loading : CharacterState
 
-    @JvmInline value class CharacterPagedData(val data: Flow<PagingData<Character>>) : CharacterUiState
+    @JvmInline value class CharacterPagedData(val data: Flow<PagingData<Character>>) : CharacterState
 }
 
 sealed interface CharacterEvent {
