@@ -35,7 +35,7 @@ fun CharacterComponent(
             shape = RoundedCornerShape(20.dp)
         )
             .padding(14.dp)
-            .height(200.dp)
+            .height(221.dp)
     ) {
         Column(
             modifier = modifier,

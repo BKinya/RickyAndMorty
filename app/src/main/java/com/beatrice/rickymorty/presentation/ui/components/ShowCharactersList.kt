@@ -19,8 +19,8 @@ fun ShowCharactersList(
         modifier = modifier,
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(10.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp),
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
+        verticalArrangement = Arrangement.spacedBy(14.dp),
+        horizontalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         items(characters.itemCount) { index ->
             val character = characters[index]

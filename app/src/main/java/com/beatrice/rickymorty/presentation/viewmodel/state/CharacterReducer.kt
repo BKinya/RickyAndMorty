@@ -1,6 +1,6 @@
 package com.beatrice.rickymorty.presentation.viewmodel.state
 
-class CharacterReducer: StateReducer<CharacterState, CharacterEvent, CharacterSideEffect> {
+class CharacterReducer : StateReducer<CharacterState, CharacterEvent, CharacterSideEffect> {
     override fun reduce(currentState: CharacterState, event: CharacterEvent): StateOutput<CharacterState, CharacterSideEffect?> {
         return when (event) {
             is CharacterEvent.OnFetchCharacters -> StateOutput(
@@ -13,6 +13,4 @@ class CharacterReducer: StateReducer<CharacterState, CharacterEvent, CharacterSi
             )
         }
     }
-
-
 }

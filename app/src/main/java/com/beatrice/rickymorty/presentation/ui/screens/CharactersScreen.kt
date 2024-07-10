@@ -5,7 +5,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.beatrice.rickymorty.presentation.ui.components.ShowCharactersPagedData
 import com.beatrice.rickymorty.presentation.ui.components.ShowLoadingIndicatorWithText
 import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterState
@@ -17,22 +22,31 @@ fun CharactersScreen(
     onRetry: () -> Unit
 ) {
     Scaffold(
-        modifier = modifier.padding(16.dp),
         topBar = {
-            Text(text = "Ricky and Morty")
+            Text(
+                text = "Ricky and Morty",
+                style = TextStyle(
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    fontFamily = FontFamily.SansSerif,
+                    color = Color.DarkGray
+                ),
+                modifier = Modifier.padding(12.dp)
+            )
         }
     ) { contentPadding ->
         when (uiState) {
             is CharacterState.Loading -> {
                 ShowLoadingIndicatorWithText(
-                    modifier = Modifier.padding(contentPadding)
+                    modifier = modifier.padding(contentPadding)
                 )
             }
             is CharacterState.CharacterPagedData -> {
                 val characters = uiState.data
                 ShowCharactersPagedData(
                     characters = characters,
-                    onRetry = onRetry
+                    onRetry = onRetry,
+                    modifier = modifier.padding(contentPadding)
                 )
             }
 

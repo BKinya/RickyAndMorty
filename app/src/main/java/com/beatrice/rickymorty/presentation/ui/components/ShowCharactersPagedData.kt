@@ -27,13 +27,13 @@ fun ShowCharactersPagedData(
     val pagingState = loadState.getState()
     ShowCharactersList(
         characters = characterState,
-        modifier = Modifier.padding(16.dp)
+        modifier = modifier
     )
     when (pagingState) {
         is CharacterPagingState.Error -> {
             ShowErrorMessageWithRefresh(
                 message = pagingState.message,
-                modifier = Modifier.fillMaxSize(),
+                modifier = modifier.fillMaxSize(),
                 onRetry = onRetry
             )
         }
@@ -49,7 +49,7 @@ fun ShowCharactersPagedData(
         }
         CharacterPagingState.Loading -> {
             ShowLoadingIndicatorWithText(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxSize()
 
             )
