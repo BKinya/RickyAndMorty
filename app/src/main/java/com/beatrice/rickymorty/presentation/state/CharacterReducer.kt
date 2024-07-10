@@ -1,4 +1,4 @@
-package com.beatrice.rickymorty.presentation.viewmodel.state
+package com.beatrice.rickymorty.presentation.state
 
 class CharacterReducer : StateReducer<CharacterState, CharacterEvent, CharacterSideEffect> {
     override fun reduce(currentState: CharacterState, event: CharacterEvent): StateOutput<CharacterState, CharacterSideEffect?> {

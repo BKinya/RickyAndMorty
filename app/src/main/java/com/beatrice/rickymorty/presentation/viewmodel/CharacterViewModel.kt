@@ -3,11 +3,11 @@ package com.beatrice.rickymorty.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.beatrice.rickymorty.domain.repository.CharacterRepository
-import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterEvent
-import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterSideEffect
-import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterState
-import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterTimeTravelCapsule
-import com.beatrice.rickymorty.presentation.viewmodel.state.StateMachine
+import com.beatrice.rickymorty.presentation.state.CharacterEvent
+import com.beatrice.rickymorty.presentation.state.CharacterSideEffect
+import com.beatrice.rickymorty.presentation.state.CharacterState
+import com.beatrice.rickymorty.presentation.state.CharacterTimeTravelCapsule
+import com.beatrice.rickymorty.presentation.state.StateMachine
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

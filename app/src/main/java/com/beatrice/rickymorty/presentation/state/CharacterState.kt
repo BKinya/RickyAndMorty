@@ -1,4 +1,4 @@
-package com.beatrice.rickymorty.presentation.viewmodel.state
+package com.beatrice.rickymorty.presentation.state
 
 import androidx.paging.PagingData
 import com.beatrice.rickymorty.domain.model.Character

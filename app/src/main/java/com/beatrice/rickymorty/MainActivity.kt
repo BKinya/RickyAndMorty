@@ -8,12 +8,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.beatrice.rickymorty.presentation.state.CharacterEvent
+import com.beatrice.rickymorty.presentation.state.CharacterState
+import com.beatrice.rickymorty.presentation.state.StateOutput
 import com.beatrice.rickymorty.presentation.theme.RickyMortyTheme
 import com.beatrice.rickymorty.presentation.ui.screens.CharactersScreen
 import com.beatrice.rickymorty.presentation.viewmodel.CharacterViewModel
-import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterEvent
-import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterState
-import com.beatrice.rickymorty.presentation.viewmodel.state.StateOutput
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {

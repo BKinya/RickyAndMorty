@@ -1,4 +1,4 @@
-package com.beatrice.rickymorty.presentation.viewmodel.state
+package com.beatrice.rickymorty.presentation.state
 
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope

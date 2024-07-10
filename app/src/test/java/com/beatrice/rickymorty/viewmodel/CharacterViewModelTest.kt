@@ -2,10 +2,10 @@ package com.beatrice.rickymorty.viewmodel
 
 import app.cash.turbine.test
 import com.beatrice.rickymorty.data.network.util.GENERAL_SERVER_ERROR
+import com.beatrice.rickymorty.presentation.state.CharacterEvent
+import com.beatrice.rickymorty.presentation.state.CharacterState
+import com.beatrice.rickymorty.presentation.state.StateMachine
 import com.beatrice.rickymorty.presentation.viewmodel.CharacterViewModel
-import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterEvent
-import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterState
-import com.beatrice.rickymorty.presentation.viewmodel.state.StateMachine
 import com.beatrice.rickymorty.util.fakes.FakeCharacterRepository
 import com.beatrice.rickymorty.util.resources.characters
 import kotlinx.coroutines.ExperimentalCoroutinesApi

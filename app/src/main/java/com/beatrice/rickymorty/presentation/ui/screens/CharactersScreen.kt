@@ -11,9 +11,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.beatrice.rickymorty.presentation.state.CharacterState
 import com.beatrice.rickymorty.presentation.ui.components.ShowCharactersPagedData
 import com.beatrice.rickymorty.presentation.ui.components.ShowLoadingIndicatorWithText
-import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterState
 
 @Composable
 fun CharactersScreen(

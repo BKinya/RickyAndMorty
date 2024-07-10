@@ -1,4 +1,4 @@
-package com.beatrice.rickymorty.presentation.viewmodel.state
+package com.beatrice.rickymorty.presentation.state
 
 interface TimeCapsule<S> {
     fun addState(state: S)
