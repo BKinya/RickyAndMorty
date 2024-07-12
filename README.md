@@ -1,1 +1,2 @@
-[Discover Event Driven Architecture for Android](https://proandroiddev.com/discovering-event-driven-architecture-for-android-717e6332065e)
+- [Discover Event Driven Architecture for Android](https://proandroiddev.com/discovering-event-driven-architecture-for-android-717e6332065e)
+- [Why Developers Never Use State Machines](https://skorks.com/2011/09/why-developers-never-use-state-machines/)
