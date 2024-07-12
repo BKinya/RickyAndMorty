@@ -11,7 +11,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.beatrice.rickymorty.presentation.theme.RickyMortyTheme
 import com.beatrice.rickymorty.presentation.ui.screens.CharactersScreen
 import com.beatrice.rickymorty.presentation.viewmodel.CharacterViewModel
-import com.beatrice.rickymorty.presentation.viewmodel.state.CharacterEvent
+import com.beatrice.rickymorty.presentation.state.CharacterEvent
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
