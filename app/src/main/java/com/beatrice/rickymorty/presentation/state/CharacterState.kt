@@ -2,15 +2,15 @@ package com.beatrice.rickymorty.presentation.state
 
 import com.beatrice.rickymorty.domain.model.Character
 
-sealed interface CharacterUiState {
-    data object Initial : CharacterUiState
-    data object Loading : CharacterUiState
+sealed interface CharacterState {
+    data object Initial : CharacterState
+    data object Loading : CharacterState
 
-    @JvmInline value class Characters(val data: List<Character>) : CharacterUiState
+    @JvmInline value class Characters(val data: List<Character>) : CharacterState
 
-    @JvmInline value class Error(val errorMessage: String) : CharacterUiState
+    @JvmInline value class Error(val errorMessage: String) : CharacterState
 
-    @JvmInline value class Empty(val message: String) : CharacterUiState
+    @JvmInline value class Empty(val message: String) : CharacterState
 }
 
 sealed interface CharacterEvent {

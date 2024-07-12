@@ -6,7 +6,7 @@ data class StateOutput<State, SideEffect>(val state: State, val sideEffect: Side
 
 interface StateMachine<State, Event, SideEffect>{
 
-    val state: StateFlow<State>
+    val state: StateFlow<StateOutput<State, SideEffect?>>
     suspend fun accept(event: Event)
 
 }

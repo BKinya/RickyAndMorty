@@ -12,6 +12,8 @@ import com.beatrice.rickymorty.presentation.theme.RickyMortyTheme
 import com.beatrice.rickymorty.presentation.ui.screens.CharactersScreen
 import com.beatrice.rickymorty.presentation.viewmodel.CharacterViewModel
 import com.beatrice.rickymorty.presentation.state.CharacterEvent
+import com.beatrice.rickymorty.presentation.state.CharacterState
+import com.beatrice.rickymorty.presentation.state.StateOutput
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
@@ -22,13 +24,17 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         onFetchCharacters()
         setContent {
-            val uiState = characterViewModel.characterUiState.collectAsStateWithLifecycle().value
+            val characterState = characterViewModel
+                .stateMachine
+                .state
+                .collectAsStateWithLifecycle()
+                .value
             RickyMortyTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    CharactersScreen(uiState = uiState)
+                    CharactersScreen(uiState = characterState.state)
                 }
             }
         }

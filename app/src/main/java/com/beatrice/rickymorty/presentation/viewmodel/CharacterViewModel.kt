@@ -7,49 +7,49 @@ import com.beatrice.rickymorty.domain.repository.CharacterRepository
 import com.beatrice.rickymorty.presentation.state.CharacterEvent
 import com.beatrice.rickymorty.presentation.state.CharacterSideEffect
 import com.beatrice.rickymorty.presentation.state.CharacterTimeTravelCapsule
-import com.beatrice.rickymorty.presentation.state.CharacterUiState
+import com.beatrice.rickymorty.presentation.state.CharacterState
 import com.beatrice.rickymorty.presentation.state.StateMachine
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class CharacterViewModel(
     private val characterRepository: CharacterRepository,
     private val dispatcher: CoroutineDispatcher,
-    private val stateMachine: StateMachine
+     val stateMachine: StateMachine<CharacterState, CharacterEvent, CharacterSideEffect>
 ) : ViewModel() {
 
-    private val timeCapsule = CharacterTimeTravelCapsule<CharacterUiState>()
+    private val timeCapsule = CharacterTimeTravelCapsule<CharacterState>()
 
-    private val _characterUiState: MutableStateFlow<CharacterUiState> = MutableStateFlow(
-        CharacterUiState.Initial)
-    val characterUiState = _characterUiState.asStateFlow()
-
-    private val sideEffects: MutableStateFlow<CharacterSideEffect?> = MutableStateFlow(null)
 
     init {
-        handleSideEffects()
+        receiveState()
     }
 
     fun sendEVent(event: CharacterEvent) {
         viewModelScope.launch(dispatcher) {
-            val output = stateMachine.onEvent(event)
-            timeCapsule.addState(output.state)
-            _characterUiState.value = output.state
-            sideEffects.value = output.sideEffect
+            stateMachine.accept(event)
+        }
+    }
+    private fun receiveState() {
+        viewModelScope.launch(dispatcher) {
+            stateMachine.state.collectLatest { output ->
+                val state = output.state
+                timeCapsule.addState(state)
+                val sideEffect = output.sideEffect
+                handleSideEffects(sideEffect)
+            }
         }
     }
 
-    private fun handleSideEffects() {
+    private fun handleSideEffects(sideEffect: CharacterSideEffect?) {
         viewModelScope.launch(dispatcher) {
-            sideEffects.collect { effect ->
-                when (effect) {
-                    null -> {
-                        // Do nothing
-                    }
-
-                    is CharacterSideEffect.FetchCharacters -> fetchAllCharacters()
+            when(sideEffect){
+                CharacterSideEffect.FetchCharacters -> fetchAllCharacters()
+                null -> {
+                    // Do nothing
                 }
             }
         }

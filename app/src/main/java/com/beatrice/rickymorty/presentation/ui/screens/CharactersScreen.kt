@@ -10,11 +10,11 @@ import androidx.compose.ui.unit.dp
 import com.beatrice.rickymorty.presentation.ui.components.ShowCharactersList
 import com.beatrice.rickymorty.presentation.ui.components.ShowErrorMessage
 import com.beatrice.rickymorty.presentation.ui.components.ShowLoadingIndicator
-import com.beatrice.rickymorty.presentation.state.CharacterUiState
+import com.beatrice.rickymorty.presentation.state.CharacterState
 
 @Composable
 fun CharactersScreen(
-    uiState: CharacterUiState,
+    uiState: CharacterState,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -24,19 +24,19 @@ fun CharactersScreen(
         }
     ) { contentPadding ->
         when (uiState) {
-            is CharacterUiState.Loading -> ShowLoadingIndicator(
+            is CharacterState.Loading -> ShowLoadingIndicator(
                 modifier = Modifier.padding(contentPadding)
             )
-            is CharacterUiState.Characters -> ShowCharactersList(
+            is CharacterState.Characters -> ShowCharactersList(
                 characters = uiState.data,
                 modifier = Modifier.padding(contentPadding)
             )
-            is CharacterUiState.Error -> ShowErrorMessage(
+            is CharacterState.Error -> ShowErrorMessage(
                 message = uiState.errorMessage,
                 modifier = Modifier.padding(contentPadding)
             )
 
-            is CharacterUiState.Empty -> ShowErrorMessage(
+            is CharacterState.Empty -> ShowErrorMessage(
                 message = uiState.message,
                 textColor = Color.DarkGray,
                 modifier = Modifier.padding(contentPadding)
