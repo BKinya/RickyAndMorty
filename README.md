@@ -1,17 +1,20 @@
 # Ricky and Morty
-An Android app displaying Ricky and Morty characters
+An Android app displaying Ricky and Morty characters.
+
+[![Demo](https://github.com/BKinya/RickyAndMorty/blob/main/media/demo.mov)]
 
 ## Motivation
 To implement state machine into an Android app. 
 
-Every user facing is a state machine. A finite state machine is a device that can be in exactly one 
-of the finite states at an given time. For example, a light switch. 
+Every user-facing is a state machine. A finite state machine is a device that can be in exactly one 
+of the finite states at a given time. For example, a light switch. 
 
-// image
+<img src="https://github.com/BKinya/RickyAndMorty/blob/main/media/state_machine.png" alt="Light switch as a state machine">
+
 A state machine usually has three components
 - State: Status of the state machine e.g. whether the light switch is on or off.
 - Events: Inputs to the state machine like pressing a button
-- Transitions: They move the state machine from one state to another when the state machine receives an event. 
+- Transitions: They move the state machine from one state to another when it receives an event. 
 // image
 
 ## Implementation
