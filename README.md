@@ -11,14 +11,17 @@ of the finite states at a given time. For example, a light switch.
 
 <img src="https://github.com/BKinya/RickyAndMorty/blob/main/media/state_machine.png" alt="Light switch as a state machine">
 
-A state machine usually has three components
+A state machine transitions from one state to another depending on the current state and the input 
+given. 
+
+A state machine has three components
 - State: Status of the state machine e.g. whether the light switch is on or off.
 - Events: Inputs to the state machine like pressing a button
-- Transitions: They move the state machine from one state to another when it receives an event. 
-// image
+- Transitions: They move the state machine from one state to another when the state machine receives an event. 
+
 
 ## Implementation
-Define states, events and side effects using Kotlin `sealed interface`:
+Define states, events and side effects using Kotlin's `sealed interface`:
 ```kotlin
 sealed interface CharacterState {
     data object Initial : CharacterState
