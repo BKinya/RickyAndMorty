@@ -13,11 +13,11 @@ A state machine transitions from one state to another depending on the current s
 given. It has three components:
 - State: Status of the state machine e.g. whether the light switch is on or off.
 - Events: Inputs to the state machine like pressing a button
-- Transitions: They move the state machine from one state to another when the state machine receives an event. 
+- Transitions: They move the state machine from one state to another when it receives an event. 
 
 
 ## Implementation
-Define states, events and side effects using Kotlin's `sealed interface`:
+Define states, events, and side effects using Kotlin's `sealed interface`:
 ```kotlin
 sealed interface CharacterState {
     data object Initial : CharacterState
@@ -51,5 +51,5 @@ process the event and update the value of `state`.
 
 
 ## Resources
-- [Discover Event Driven Architecture for Android](https://proandroiddev.com/discovering-event-driven-architecture-for-android-717e6332065e)
+- [Discover Event-Driven Architecture for Android](https://proandroiddev.com/discovering-event-driven-architecture-for-android-717e6332065e)
 - [Why Developers Never Use State Machines](https://skorks.com/2011/09/why-developers-never-use-state-machines/)
