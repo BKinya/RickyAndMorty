@@ -8,13 +8,12 @@ sealed interface CharacterState {
     data object Initial : CharacterState
     data object Loading : CharacterState
 
-    @JvmInline value class CharacterPagedData(val data: Flow<PagingData<Character>>) : CharacterState
+    data class CharacterPagedData(val data: Flow<PagingData<Character>>) : CharacterState
 }
 
 sealed interface CharacterEvent {
     data object OnFetchCharacters : CharacterEvent
-
-    @JvmInline value class OnFetchingCharacters(val characters: Flow<PagingData<Character>>) : CharacterEvent
+    data class OnFetchingCharacters(val characters: Flow<PagingData<Character>>) : CharacterEvent
 }
 
 sealed interface CharacterSideEffect {
