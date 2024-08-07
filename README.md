@@ -1,8 +1,6 @@
 # Ricky and Morty
 An Android app displaying Ricky and Morty characters.
 
-[![Demo](https://github.com/BKinya/RickyAndMorty/blob/main/media/demo.mov)]
-
 ## Motivation
 To implement state machine into an Android app. 
 
@@ -12,9 +10,7 @@ of the finite states at a given time. For example, a light switch.
 <img src="https://github.com/BKinya/RickyAndMorty/blob/main/media/state_machine.png" alt="Light switch as a state machine">
 
 A state machine transitions from one state to another depending on the current state and the input 
-given. 
-
-A state machine has three components
+given. It has three components:
 - State: Status of the state machine e.g. whether the light switch is on or off.
 - Events: Inputs to the state machine like pressing a button
 - Transitions: They move the state machine from one state to another when the state machine receives an event. 
