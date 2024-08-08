@@ -49,6 +49,18 @@ interface StateMachine<State, Event, SideEffect> {
 - The `accept(event: Event)` method receives the event sent to the FSM. The state machine will 
 process the event and update the value of `state`. 
 
+Then you'd inject the state machine the `ViewModel` class: 
+
+```kotlin
+class CharacterViewModel(
+    val stateMachine: StateMachine<CharacterState, CharacterEvent, CharacterSideEffect>,
+    // Other dependencies
+) : ViewModel() {
+    // The rest of the code
+}
+
+```
+
 
 ## Resources
 - [Discover Event-Driven Architecture for Android](https://proandroiddev.com/discovering-event-driven-architecture-for-android-717e6332065e)

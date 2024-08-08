@@ -13,9 +13,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class CharacterViewModel(
+    val stateMachine: StateMachine<CharacterState, CharacterEvent, CharacterSideEffect>,
     private val characterRepository: CharacterRepository,
-    private val dispatcher: CoroutineDispatcher,
-    val stateMachine: StateMachine<CharacterState, CharacterEvent, CharacterSideEffect>
+    private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val timeCapsule = CharacterTimeTravelCapsule<CharacterState>()
