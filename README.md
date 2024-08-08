@@ -49,7 +49,7 @@ interface StateMachine<State, Event, SideEffect> {
 - The `accept(event: Event)` method receives the event sent to the FSM. The state machine will 
 process the event and update the value of `state`. 
 
-Then you'd inject the state machine the `ViewModel` class: 
+Then inject the state machine the `ViewModel` class: 
 
 ```kotlin
 class CharacterViewModel(
