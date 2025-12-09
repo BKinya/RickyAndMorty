@@ -6,14 +6,14 @@ import androidx.paging.PagingData
 import com.beatrice.rickymorty.data.network.CharacterApiService
 import com.beatrice.rickymorty.data.network.datasources.CharacterPagingSource
 import com.beatrice.rickymorty.domain.model.Character
-import com.beatrice.rickymorty.domain.repository.CharacterRepository
 import kotlinx.coroutines.flow.Flow
 
 private const val PAGE_SIZE = 30
-class CharacterRepositoryImpl(
+
+class CharacterRepository(
     private val apiService: CharacterApiService
-) : CharacterRepository {
-    override fun getAllCharacters(): Flow<PagingData<Character>> {
+) {
+    fun getAllCharacters(): Flow<PagingData<Character>> {
         val response = Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,

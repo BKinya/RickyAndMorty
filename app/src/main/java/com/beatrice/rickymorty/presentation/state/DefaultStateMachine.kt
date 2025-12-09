@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.scan
 import kotlinx.coroutines.flow.stateIn
-
+// TODO: Make this programmable-ish
 class DefaultStateMachine<State, Event, SideEffect>(
     private val context: CoroutineContext,
     private val initialState: State,

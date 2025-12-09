@@ -2,7 +2,7 @@ package com.beatrice.rickymorty.repository
 
 import com.beatrice.rickymorty.data.network.util.GENERAL_SERVER_ERROR
 import com.beatrice.rickymorty.data.network.util.NetworkResult
-import com.beatrice.rickymorty.data.repository.CharacterRepositoryImpl
+import com.beatrice.rickymorty.data.repository.CharacterRepository
 import com.beatrice.rickymorty.util.fakes.FakeCharacterApiService
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -12,7 +12,7 @@ import org.junit.Test
 class CharacterRepositoryTest {
     private val apiService = FakeCharacterApiService()
 
-    private val repository = CharacterRepositoryImpl(apiService = apiService)
+    private val repository = CharacterRepository(apiService = apiService)
 
     @Test
     fun `when fetching characters is successful return a list of characters`() = runTest {

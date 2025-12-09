@@ -2,8 +2,7 @@ package com.beatrice.rickymorty.di
 
 import com.beatrice.rickymorty.BuildConfig
 import com.beatrice.rickymorty.data.network.CharacterApiService
-import com.beatrice.rickymorty.data.repository.CharacterRepositoryImpl
-import com.beatrice.rickymorty.domain.repository.CharacterRepository
+import com.beatrice.rickymorty.data.repository.CharacterRepository
 import com.beatrice.rickymorty.presentation.state.CharacterEvent
 import com.beatrice.rickymorty.presentation.state.CharacterReducer
 import com.beatrice.rickymorty.presentation.state.CharacterSideEffect
@@ -28,7 +27,7 @@ val appModules = module {
     single { createRetrofit(client = get()) }
     single { createCharacterService(retrofit = get()) }
 
-    factory<CharacterRepository> { CharacterRepositoryImpl(apiService = get()) }
+    factory<CharacterRepository> { CharacterRepository(apiService = get()) }
 
     single { Dispatchers.IO }
 

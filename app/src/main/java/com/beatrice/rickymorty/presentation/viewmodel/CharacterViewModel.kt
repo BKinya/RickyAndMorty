@@ -2,7 +2,7 @@ package com.beatrice.rickymorty.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.beatrice.rickymorty.domain.repository.CharacterRepository
+import com.beatrice.rickymorty.data.repository.CharacterRepository
 import com.beatrice.rickymorty.presentation.state.CharacterEvent
 import com.beatrice.rickymorty.presentation.state.CharacterSideEffect
 import com.beatrice.rickymorty.presentation.state.CharacterState
