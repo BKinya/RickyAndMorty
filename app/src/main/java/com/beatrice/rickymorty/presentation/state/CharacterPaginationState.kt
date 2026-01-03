@@ -20,12 +20,12 @@ sealed interface CharacterEvent {
     data object OnInitialFetchCharacters : CharacterEvent
     data class OnInitialFetchCharactersSuccess(val characters: List<Character>, val nextPage: Int?) : CharacterEvent
     data class OnInitialFetchCharactersFailure(val message: String) : CharacterEvent
-    data class OnLoadMoreCharacters(val currentItems: List<Character>, val page: Int) : CharacterEvent
-    data class OnLoadMoreCharactersSuccess(val characters: List<Character>, val nextPage: Int) : CharacterEvent
+    data class OnLoadMoreCharacters(val currentItems: List<Character>, val page: Int?) : CharacterEvent
+    data class OnLoadMoreCharactersSuccess(val characters: List<Character>, val nextPage: Int?) : CharacterEvent
     data class OnLoadMoreCharactersFailure(val message: String) : CharacterEvent
 }
 
 sealed interface CharacterSideEffect {
     data object InitialFetchCharacters : CharacterSideEffect
-    data class LoadMoreCharacters(val page: Int) : CharacterSideEffect
+    data class LoadMoreCharacters(val page: Int?) : CharacterSideEffect
 }

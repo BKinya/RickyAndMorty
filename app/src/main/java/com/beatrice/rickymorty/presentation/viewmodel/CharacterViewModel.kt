@@ -9,8 +9,6 @@ import com.beatrice.rickymorty.presentation.state.CharacterPaginationState
 import com.beatrice.rickymorty.presentation.state.CharacterTimeTravelCapsule
 import com.beatrice.rickymorty.presentation.state.StateMachine
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import logcat.logcat
 
@@ -32,12 +30,15 @@ class CharacterViewModel(
         }
     }
 
-    private fun handleSideEffect(sideEffect: CharacterSideEffect?) {
-        when (sideEffect) {
+    private fun handleSideEffect(effect: CharacterSideEffect?) {
+        when (effect) {
             null -> { /* Do nothing */ }
 
             is CharacterSideEffect.InitialFetchCharacters -> initialFetchCharacters()
-            is CharacterSideEffect.LoadMoreCharacters -> loadMoreCharacters(sideEffect.page)
+            is CharacterSideEffect.LoadMoreCharacters -> effect.page?.let {
+                // Load more characters when the value of page is not null
+                loadMoreCharacters(it)
+            }
         }
     }
 
@@ -82,7 +83,7 @@ class CharacterViewModel(
                     sendEvent(CharacterEvent.OnLoadMoreCharactersFailure(it.message ?: "Unknown error"))
                 }
                 .onSuccess { result ->
-                    sendEvent(CharacterEvent.OnInitialFetchCharactersSuccess(result.characters, result.nextPage))
+                    sendEvent(CharacterEvent.OnLoadMoreCharactersSuccess(result.characters, result.nextPage))
                 }
         }
     }

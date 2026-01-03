@@ -37,7 +37,10 @@ class MainActivity : ComponentActivity() {
                 ) {
                     CharactersScreen(
                         uiState = characterPaginationState,
-                        onRetry = {/* TODO: Implement */ }
+                        onRetry = {/* TODO: Implement */ },
+                        onLoadMoreCharacters = {
+                            characterViewModel.sendEvent(CharacterEvent.OnLoadMoreCharacters())
+                        }
                     )
                 }
             }
