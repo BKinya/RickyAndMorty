@@ -8,8 +8,7 @@ sealed interface CharacterPaginationState {
 
     data class Content(
         val characters: List<Character>,
-        // `isLastPage` tells the UI whether to trigger load on scroll
-        val isLastPage: Boolean
+        val nextPage: Int?
     ) : CharacterPaginationState
 
     data class InitialError(val message: String) : CharacterPaginationState
@@ -19,13 +18,14 @@ sealed interface CharacterPaginationState {
 
 sealed interface CharacterEvent {
     data object OnInitialFetchCharacters : CharacterEvent
-    data class OnInitialFetchCharactersSuccess(val characters: List<Character>) : CharacterEvent
+    data class OnInitialFetchCharactersSuccess(val characters: List<Character>, val nextPage: Int?) : CharacterEvent
     data class OnInitialFetchCharactersFailure(val message: String) : CharacterEvent
-    data class OnLoadMoreCharacters(val page: Int) : CharacterEvent
-    data class OnLoadMoreCharactersSuccess(val characters: List<Character>) : CharacterEvent
-    data class onLoadMoreCharactersFailure(val message: String) : CharacterEvent
+    data class OnLoadMoreCharacters(val currentItems: List<Character>, val page: Int) : CharacterEvent
+    data class OnLoadMoreCharactersSuccess(val characters: List<Character>, val nextPage: Int) : CharacterEvent
+    data class OnLoadMoreCharactersFailure(val message: String) : CharacterEvent
 }
 
 sealed interface CharacterSideEffect {
-    data class FetchCharacters (val page: Int): CharacterSideEffect
+    data object InitialFetchCharacters : CharacterSideEffect
+    data class LoadMoreCharacters(val page: Int) : CharacterSideEffect
 }

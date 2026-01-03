@@ -11,6 +11,7 @@ import com.beatrice.rickymorty.presentation.state.StateMachine
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import logcat.logcat
 
 class CharacterViewModel(
     val stateMachine: StateMachine<CharacterPaginationState, CharacterEvent, CharacterSideEffect>,
@@ -36,7 +37,8 @@ class CharacterViewModel(
                 // Do nothing
             }
 
-            is CharacterSideEffect.FetchCharacters -> fetchAllCharacters()
+            is CharacterSideEffect.InitialFetchCharacters -> initialFetchCharacters()
+            is CharacterSideEffect.LoadMoreCharacters -> loadMoreCharacters(sideEffect.page)
         }
     }
 
@@ -51,10 +53,29 @@ class CharacterViewModel(
         }
     }
 
-    private fun fetchAllCharacters() {
+    private fun initialFetchCharacters() {
         viewModelScope.launch {
-            val characters = characterRepository.getAllCharacters()
-            sendEVent(CharacterEvent.OnInitialFetchCharactersSuccess(characters))
+            characterRepository.fetchCharacters(1)
+                .onSuccess { result ->
+                    sendEVent(CharacterEvent.OnInitialFetchCharactersSuccess(result.characters, result.nextPage))
+                }
+                .onFailure {
+                    logcat(tag = "Fetch-Characters-failed", message = { it.message ?: "Unknown error" })
+                    sendEVent(CharacterEvent.OnInitialFetchCharactersFailure(it.message ?: "Unknown error"))
+                }
+        }
+    }
+
+    private fun loadMoreCharacters(page: Int){
+        viewModelScope.launch {
+            characterRepository.fetchCharacters(page)
+                .onFailure {
+                    logcat(tag = "Loading-More-Characters-Failed", message = { it.message ?: "Unknown error" })
+                    sendEVent(CharacterEvent.OnLoadMoreCharactersFailure(it.message ?: "Unknown error"))
+                }
+                .onSuccess { result ->
+                    sendEVent(CharacterEvent.OnInitialFetchCharactersSuccess(result.characters, result.nextPage))
+                }
         }
     }
 }
