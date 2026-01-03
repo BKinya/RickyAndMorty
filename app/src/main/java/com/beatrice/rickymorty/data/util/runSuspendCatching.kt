@@ -1,4 +1,4 @@
-package com.beatrice.rickymorty.data.network.util
+package com.beatrice.rickymorty.data.util
 
 import kotlinx.coroutines.CancellationException
 

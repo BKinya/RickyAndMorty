@@ -41,7 +41,7 @@ class CharacterViewModel(
     }
 
     private fun receiveState() {
-        viewModelScope.launch(dispatcher) {
+        viewModelScope.launch {
             stateMachine.state.collectLatest { output ->
                 val state = output.state
                 timeCapsule.addState(state)
@@ -52,9 +52,9 @@ class CharacterViewModel(
     }
 
     private fun fetchAllCharacters() {
-        viewModelScope.launch(dispatcher) {
-            val pagingData = characterRepository.getAllCharacters()
-            sendEVent(CharacterEvent.OnInitialFetchCharactersSuccess(pagingData))
+        viewModelScope.launch {
+            val characters = characterRepository.getAllCharacters()
+            sendEVent(CharacterEvent.OnInitialFetchCharactersSuccess(characters))
         }
     }
 }
