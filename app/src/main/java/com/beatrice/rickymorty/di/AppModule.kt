@@ -6,7 +6,7 @@ import com.beatrice.rickymorty.data.repository.CharacterRepository
 import com.beatrice.rickymorty.presentation.state.CharacterEvent
 import com.beatrice.rickymorty.presentation.state.CharacterReducer
 import com.beatrice.rickymorty.presentation.state.CharacterSideEffect
-import com.beatrice.rickymorty.presentation.state.CharacterState
+import com.beatrice.rickymorty.presentation.state.CharacterPaginationState
 import com.beatrice.rickymorty.presentation.state.DefaultStateMachine
 import com.beatrice.rickymorty.presentation.state.StateMachine
 import com.beatrice.rickymorty.presentation.state.StateReducer
@@ -31,11 +31,11 @@ val appModules = module {
 
     single { Dispatchers.IO }
 
-    single<StateReducer<CharacterState, CharacterEvent, CharacterSideEffect>>(named("characterReducer")) { CharacterReducer() }
-    single<StateMachine<CharacterState, CharacterEvent, CharacterSideEffect>>(named("characterStateMachine")) {
+    single<StateReducer<CharacterPaginationState, CharacterEvent, CharacterSideEffect>>(named("characterReducer")) { CharacterReducer() }
+    single<StateMachine<CharacterPaginationState, CharacterEvent, CharacterSideEffect>>(named("characterStateMachine")) {
         DefaultStateMachine(
             context = Dispatchers.IO,
-            initialState = CharacterState.Initial,
+            initialState = CharacterPaginationState.Default,
             reducer = get(named("characterReducer"))
         )
     }

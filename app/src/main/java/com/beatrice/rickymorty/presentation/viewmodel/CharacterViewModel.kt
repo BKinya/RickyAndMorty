@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.beatrice.rickymorty.data.repository.CharacterRepository
 import com.beatrice.rickymorty.presentation.state.CharacterEvent
 import com.beatrice.rickymorty.presentation.state.CharacterSideEffect
-import com.beatrice.rickymorty.presentation.state.CharacterState
+import com.beatrice.rickymorty.presentation.state.CharacterPaginationState
 import com.beatrice.rickymorty.presentation.state.CharacterTimeTravelCapsule
 import com.beatrice.rickymorty.presentation.state.StateMachine
 import kotlinx.coroutines.CoroutineDispatcher
@@ -13,12 +13,12 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class CharacterViewModel(
-    val stateMachine: StateMachine<CharacterState, CharacterEvent, CharacterSideEffect>,
+    val stateMachine: StateMachine<CharacterPaginationState, CharacterEvent, CharacterSideEffect>,
     private val characterRepository: CharacterRepository,
     private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    private val timeCapsule = CharacterTimeTravelCapsule<CharacterState>()
+    private val timeCapsule = CharacterTimeTravelCapsule<CharacterPaginationState>()
 
     init {
         receiveState()
@@ -54,7 +54,7 @@ class CharacterViewModel(
     private fun fetchAllCharacters() {
         viewModelScope.launch(dispatcher) {
             val pagingData = characterRepository.getAllCharacters()
-            sendEVent(CharacterEvent.OnFetchingCharacters(pagingData))
+            sendEVent(CharacterEvent.OnInitialFetchCharactersSuccess(pagingData))
         }
     }
 }

@@ -11,13 +11,13 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.beatrice.rickymorty.presentation.state.CharacterState
+import com.beatrice.rickymorty.presentation.state.CharacterPaginationState
 import com.beatrice.rickymorty.presentation.ui.components.ShowCharactersPagedData
 import com.beatrice.rickymorty.presentation.ui.components.ShowLoadingIndicatorWithText
 
 @Composable
 fun CharactersScreen(
-    uiState: CharacterState,
+    uiState: CharacterPaginationState,
     modifier: Modifier = Modifier,
     onRetry: () -> Unit
 ) {
@@ -36,12 +36,12 @@ fun CharactersScreen(
         }
     ) { contentPadding ->
         when (uiState) {
-            is CharacterState.Loading -> {
+            is CharacterPaginationState.InitialLoading -> {
                 ShowLoadingIndicatorWithText(
                     modifier = modifier.padding(contentPadding)
                 )
             }
-            is CharacterState.CharacterPagedData -> {
+            is CharacterPaginationState.CharacterPagedData -> {
                 val characters = uiState.data
                 ShowCharactersPagedData(
                     characters = characters,

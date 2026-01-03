@@ -1,15 +1,15 @@
 package com.beatrice.rickymorty.presentation.state
 
-class CharacterReducer : StateReducer<CharacterState, CharacterEvent, CharacterSideEffect> {
-    override fun reduce(currentState: CharacterState, event: CharacterEvent): StateOutput<CharacterState, CharacterSideEffect?> {
+class CharacterReducer : StateReducer<CharacterPaginationState, CharacterEvent, CharacterSideEffect> {
+    override fun reduce(currentState: CharacterPaginationState, event: CharacterEvent): StateOutput<CharacterPaginationState, CharacterSideEffect?> {
         return when (event) {
-            is CharacterEvent.OnFetchCharacters -> StateOutput(
-                state = CharacterState.Loading,
+            is CharacterEvent.OnInitialFetchCharacters -> StateOutput(
+                state = CharacterPaginationState.InitialLoading,
                 sideEffect = CharacterSideEffect.FetchCharacters
             )
 
-            is CharacterEvent.OnFetchingCharacters -> StateOutput(
-                state = CharacterState.CharacterPagedData(event.characters)
+            is CharacterEvent.OnInitialFetchCharactersSuccess -> StateOutput(
+                state = CharacterPaginationState.CharacterPagedData(event.characters)
             )
         }
     }
