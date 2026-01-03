@@ -1,11 +1,13 @@
 package com.beatrice.rickymorty
 
+import android.R.attr.value
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.beatrice.rickymorty.presentation.state.CharacterEvent
@@ -22,12 +24,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        onFetchCharacters()
         setContent {
             val characterPaginationState = characterViewModel
                 .stateMachine
                 .state
-                .collectAsStateWithLifecycle(initialValue = StateOutput(CharacterPaginationState.Default, null))
+                .collectAsStateWithLifecycle(initialValue = CharacterPaginationState.Default)
                 .value
             RickyMortyTheme {
                 Surface(
@@ -35,16 +36,11 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     CharactersScreen(
-                        uiState = characterPaginationState.state,
-                        onRetry = ::onFetchCharacters
-
+                        uiState = characterPaginationState,
+                        onRetry = {/* TODO: Implement */ }
                     )
                 }
             }
         }
-    }
-
-    private fun onFetchCharacters() {
-        characterViewModel.sendEVent(CharacterEvent.OnInitialFetchCharacters)
     }
 }

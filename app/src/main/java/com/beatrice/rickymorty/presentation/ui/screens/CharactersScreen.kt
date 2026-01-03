@@ -12,7 +12,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.beatrice.rickymorty.presentation.state.CharacterPaginationState
-import com.beatrice.rickymorty.presentation.ui.components.ShowCharactersPagedData
+import com.beatrice.rickymorty.presentation.ui.components.ShowCharactersList
+import com.beatrice.rickymorty.presentation.ui.components.ShowErrorMessage
 import com.beatrice.rickymorty.presentation.ui.components.ShowLoadingIndicatorWithText
 
 @Composable
@@ -41,18 +42,12 @@ fun CharactersScreen(
                     modifier = modifier.padding(contentPadding)
                 )
             }
-            is CharacterPaginationState.CharacterPagedData -> {
-                val characters = uiState.data
-                ShowCharactersPagedData(
-                    characters = characters,
-                    onRetry = onRetry,
-                    modifier = modifier.padding(contentPadding)
-                )
-            }
 
-            else -> {
-                // do nothing
-            }
+            is CharacterPaginationState.InitialError -> ShowErrorMessage(message = uiState.message)
+            is CharacterPaginationState.Content -> ShowCharactersList(characters = uiState.characters)
+            is CharacterPaginationState.LoadingMore -> TODO()
+            is CharacterPaginationState.AppendError -> TODO()
+            else -> {/*Do nothing*/ }
         }
     }
 }

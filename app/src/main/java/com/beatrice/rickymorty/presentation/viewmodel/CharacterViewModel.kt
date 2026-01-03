@@ -10,6 +10,7 @@ import com.beatrice.rickymorty.presentation.state.CharacterTimeTravelCapsule
 import com.beatrice.rickymorty.presentation.state.StateMachine
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import logcat.logcat
 
@@ -22,10 +23,10 @@ class CharacterViewModel(
     private val timeCapsule = CharacterTimeTravelCapsule<CharacterPaginationState>()
 
     init {
-        receiveState()
+        observeStateMachine()
     }
 
-    fun sendEVent(event: CharacterEvent) {
+    fun sendEvent(event: CharacterEvent) {
         viewModelScope.launch(dispatcher) {
             stateMachine.accept(event)
         }
@@ -33,22 +34,29 @@ class CharacterViewModel(
 
     private fun handleSideEffect(sideEffect: CharacterSideEffect?) {
         when (sideEffect) {
-            null -> {
-                // Do nothing
-            }
+            null -> { /* Do nothing */ }
 
             is CharacterSideEffect.InitialFetchCharacters -> initialFetchCharacters()
             is CharacterSideEffect.LoadMoreCharacters -> loadMoreCharacters(sideEffect.page)
         }
     }
 
-    private fun receiveState() {
+    private fun observeStateMachine() {
         viewModelScope.launch {
-            stateMachine.state.collectLatest { output ->
-                val state = output.state
+            stateMachine.state.collect { state ->
                 timeCapsule.addState(state)
-                val sideEffect = output.sideEffect
-                handleSideEffect(sideEffect)
+            }
+        }
+
+        viewModelScope.launch {
+            stateMachine.sideEffect.collect { effect ->
+                handleSideEffect(effect)
+            }
+        }
+
+        viewModelScope.launch {
+            if (stateMachine.state.value is CharacterPaginationState.Default){
+                sendEvent(CharacterEvent.OnInitialFetchCharacters)
             }
         }
     }
@@ -57,24 +65,24 @@ class CharacterViewModel(
         viewModelScope.launch {
             characterRepository.fetchCharacters(1)
                 .onSuccess { result ->
-                    sendEVent(CharacterEvent.OnInitialFetchCharactersSuccess(result.characters, result.nextPage))
+                    sendEvent(CharacterEvent.OnInitialFetchCharactersSuccess(result.characters, result.nextPage))
                 }
                 .onFailure {
                     logcat(tag = "Fetch-Characters-failed", message = { it.message ?: "Unknown error" })
-                    sendEVent(CharacterEvent.OnInitialFetchCharactersFailure(it.message ?: "Unknown error"))
+                    sendEvent(CharacterEvent.OnInitialFetchCharactersFailure(it.message ?: "Unknown error"))
                 }
         }
     }
 
-    private fun loadMoreCharacters(page: Int){
+    private fun loadMoreCharacters(page: Int) {
         viewModelScope.launch {
             characterRepository.fetchCharacters(page)
                 .onFailure {
                     logcat(tag = "Loading-More-Characters-Failed", message = { it.message ?: "Unknown error" })
-                    sendEVent(CharacterEvent.OnLoadMoreCharactersFailure(it.message ?: "Unknown error"))
+                    sendEvent(CharacterEvent.OnLoadMoreCharactersFailure(it.message ?: "Unknown error"))
                 }
                 .onSuccess { result ->
-                    sendEVent(CharacterEvent.OnInitialFetchCharactersSuccess(result.characters, result.nextPage))
+                    sendEvent(CharacterEvent.OnInitialFetchCharactersSuccess(result.characters, result.nextPage))
                 }
         }
     }

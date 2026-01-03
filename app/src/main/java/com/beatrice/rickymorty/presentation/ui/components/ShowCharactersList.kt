@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -13,7 +14,7 @@ import com.beatrice.rickymorty.domain.model.Character
 @Composable
 fun ShowCharactersList(
     modifier: Modifier = Modifier,
-    characters: LazyPagingItems<Character>
+    characters: List<Character>
 ) {
     LazyVerticalGrid(
         modifier = modifier,
@@ -22,11 +23,8 @@ fun ShowCharactersList(
         verticalArrangement = Arrangement.spacedBy(14.dp),
         horizontalArrangement = Arrangement.spacedBy(14.dp)
     ) {
-        items(characters.itemCount) { index ->
-            val character = characters[index]
-            character?. let {
-                CharacterComponent(character = character)
-            }
+        items(characters){ character ->
+            CharacterComponent(character = character)
         }
     }
 }
