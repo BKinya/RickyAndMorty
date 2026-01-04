@@ -1,13 +1,15 @@
 package com.beatrice.rickymorty.presentation.ui.screens
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -20,6 +22,7 @@ import com.beatrice.rickymorty.presentation.state.CharacterPaginationState
 import com.beatrice.rickymorty.presentation.ui.components.ShowCharactersList
 import com.beatrice.rickymorty.presentation.ui.components.ShowErrorMessage
 import com.beatrice.rickymorty.presentation.ui.components.ShowLoadingIndicatorWithText
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Composable
 fun CharactersScreen(
@@ -28,24 +31,33 @@ fun CharactersScreen(
     onRetry: () -> Unit,
     onLoadMoreCharacters: (CharacterEvent) -> Unit
 ) {
-    val lazyColumnState = rememberLazyListState()
-    val shouldLoadNextPage = remember {
-        derivedStateOf {
-            uiState is CharacterPaginationState.Content &&
-                    ((lazyColumnState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: -9) >= (lazyColumnState.layoutInfo.totalItemsCount - 19))
-        }
-    }
+    val lazyGridState = rememberLazyGridState()
 
-    LaunchedEffect(shouldLoadNextPage) {
-        val state = uiState as? CharacterPaginationState.Content
-        state?.let {
-            onLoadMoreCharacters(
-                CharacterEvent.OnLoadMoreCharacters(
-                    currentItems = it.characters,
-                    page = it.nextPage
-                )
-            )
+    val currentState by rememberUpdatedState(uiState)
+    LaunchedEffect(lazyGridState) {
+        snapshotFlow {
+            val layoutInfo = lazyGridState.layoutInfo
+            val lastVisibleIndex = layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: -9
+            val totalItemsCount = layoutInfo.totalItemsCount
+            val isNearEnd = lastVisibleIndex >= totalItemsCount - 2
+
+            isNearEnd
         }
+            .distinctUntilChanged()
+            .collect { isNearEnd->
+                val latestState = currentState
+                if (isNearEnd){
+                    if (isNearEnd && latestState is CharacterPaginationState.Content ) {
+                        onLoadMoreCharacters(
+                            CharacterEvent.OnLoadMoreCharacters(
+                                currentItems = latestState.characters,
+                                page = latestState.nextPage
+                            )
+                        )
+                    }
+                }
+
+            }
     }
     Scaffold(
         topBar = {
@@ -64,14 +76,22 @@ fun CharactersScreen(
         when (uiState) {
             is CharacterPaginationState.InitialLoading -> {
                 ShowLoadingIndicatorWithText(
-                    modifier = modifier.padding(contentPadding)
+                    modifier = modifier
+                        .fillMaxSize()
+                        .padding(contentPadding)
                 )
             }
 
             is CharacterPaginationState.InitialError -> ShowErrorMessage(message = uiState.message)
-            is CharacterPaginationState.Content -> ShowCharactersList(uiState = uiState, characters = uiState.characters)
-            else -> {/*Do nothing*/
-            }
+            is CharacterPaginationState.Content -> ShowCharactersList(
+                uiState = uiState,
+                characters = uiState.characters,
+                contePadding = contentPadding,
+                lazyGridState = lazyGridState,
+                modifier = Modifier.padding(16.dp)
+            )
+
+            else -> { /*Do nothing*/ }
         }
     }
 }

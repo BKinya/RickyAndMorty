@@ -31,11 +31,10 @@ class CharacterReducer : StateReducer<CharacterPaginationState, CharacterEvent, 
     }
 
     private fun CharacterPaginationState.Content.reduce(event: CharacterEvent): StateOutput<CharacterPaginationState, CharacterSideEffect?> = when (event) {
-        is CharacterEvent.OnLoadMoreCharacters ->
-            StateOutput(
-                CharacterPaginationState.LoadingMore(event.currentItems),
-                LoadMoreCharacters(page = event.page)
-            )
+        is CharacterEvent.OnLoadMoreCharacters -> StateOutput(
+            CharacterPaginationState.LoadingMore(event.currentItems),
+            LoadMoreCharacters(page = event.page)
+        )
 
         else -> StateOutput(this, sideEffect = null)
     }
@@ -44,10 +43,9 @@ class CharacterReducer : StateReducer<CharacterPaginationState, CharacterEvent, 
         is CharacterEvent.OnLoadMoreCharactersFailure ->
             StateOutput(CharacterPaginationState.AppendError(this.currentItems, event.message))
 
-        is CharacterEvent.OnLoadMoreCharactersSuccess ->
-            StateOutput(
-                state = CharacterPaginationState.Content(this.currentItems + event.characters, nextPage = event.nextPage)
-            )
+        is CharacterEvent.OnLoadMoreCharactersSuccess -> StateOutput(
+            state = CharacterPaginationState.Content(this.currentItems + event.characters, nextPage = event.nextPage)
+        )
 
         else -> StateOutput(this, sideEffect = null)
     }

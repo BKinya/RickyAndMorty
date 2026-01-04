@@ -29,7 +29,7 @@ fun ShowLoadingIndicatorWithText(
         Text(
             text = "Refresh loading",
             style = TextStyle(
-                fontSize = 14.sp,
+                fontSize = 22.sp,
                 fontFamily = FontFamily.Serif,
                 color = Color.DarkGray
             )

@@ -25,6 +25,7 @@ class CharacterViewModel(
     }
 
     fun sendEvent(event: CharacterEvent) {
+        logcat(tag = "UI_STATE_2", message = { "event is $event" })
         viewModelScope.launch(dispatcher) {
             stateMachine.accept(event)
         }
