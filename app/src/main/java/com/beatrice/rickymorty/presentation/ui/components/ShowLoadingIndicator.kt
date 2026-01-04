@@ -1,9 +1,12 @@
 package com.beatrice.rickymorty.presentation.ui.components
 
+import android.R
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,7 +27,9 @@ fun ShowLoadingIndicatorWithText(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CircularProgressIndicator()
+        CircularProgressIndicator(
+            color = Color.Gray
+        )
         Spacer(modifier = Modifier.height(14.dp))
         Text(
             text = "Refresh loading",
@@ -41,5 +46,8 @@ fun ShowLoadingIndicatorWithText(
 fun ShowBottomLoadingIndicator(
     modifier: Modifier = Modifier
 ) {
-    CircularProgressIndicator(modifier = modifier)
+    CircularProgressIndicator(
+        modifier = modifier.size(57.dp),
+        color = Color.Gray
+    )
 }

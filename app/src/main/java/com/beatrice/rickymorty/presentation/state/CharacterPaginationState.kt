@@ -8,12 +8,12 @@ sealed interface CharacterPaginationState {
 
     data class Content(
         val characters: List<Character>,
-        val nextPage: Int?
+        val nextPage: Int?,
+        val isLoadingNextPage: Boolean,
+        val errorMessage: String? = null
     ) : CharacterPaginationState
 
     data class InitialError(val message: String) : CharacterPaginationState
-    data class LoadingMore(val currentItems: List<Character>) : CharacterPaginationState
-    data class AppendError(val currentItems: List<Character>, val message: String) : CharacterPaginationState
 }
 
 sealed interface CharacterEvent {

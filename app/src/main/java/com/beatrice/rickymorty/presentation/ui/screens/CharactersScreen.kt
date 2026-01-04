@@ -34,6 +34,7 @@ fun CharactersScreen(
     val lazyGridState = rememberLazyGridState()
 
     val currentState by rememberUpdatedState(uiState)
+    println("State_is_ $currentState")
     LaunchedEffect(lazyGridState) {
         snapshotFlow {
             val layoutInfo = lazyGridState.layoutInfo
@@ -82,16 +83,14 @@ fun CharactersScreen(
                 )
             }
 
-            is CharacterPaginationState.InitialError -> ShowErrorMessage(message = uiState.message)
+            is CharacterPaginationState.InitialError -> ShowErrorMessage(message = uiState.message, modifier = Modifier.fillMaxSize())
             is CharacterPaginationState.Content -> ShowCharactersList(
                 uiState = uiState,
-                characters = uiState.characters,
                 contePadding = contentPadding,
                 lazyGridState = lazyGridState,
                 modifier = Modifier.padding(16.dp)
             )
-
-            else -> { /*Do nothing*/ }
+            else -> { /* Do Nothing */ }
         }
     }
 }
