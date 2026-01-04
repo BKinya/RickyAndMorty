@@ -6,11 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.beatrice.rickymorty.presentation.state.CharacterEvent
-import com.beatrice.rickymorty.presentation.state.CharacterState
-import com.beatrice.rickymorty.presentation.state.StateOutput
+import com.beatrice.rickymorty.presentation.state.CharacterPaginationState
 import com.beatrice.rickymorty.presentation.theme.RickyMortyTheme
 import com.beatrice.rickymorty.presentation.ui.screens.CharactersScreen
 import com.beatrice.rickymorty.presentation.viewmodel.CharacterViewModel
@@ -22,29 +21,22 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        onFetchCharacters()
         setContent {
-            val characterState = characterViewModel
+            val characterPaginationState by characterViewModel
                 .stateMachine
                 .state
-                .collectAsStateWithLifecycle(initialValue = StateOutput(CharacterState.Initial, null))
-                .value
+                .collectAsStateWithLifecycle(initialValue = CharacterPaginationState.Default)
             RickyMortyTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     CharactersScreen(
-                        uiState = characterState.state,
-                        onRetry = ::onFetchCharacters
-
+                        uiState = characterPaginationState,
+                        onLoadMoreCharacters = characterViewModel::sendEvent
                     )
                 }
             }
         }
-    }
-
-    private fun onFetchCharacters() {
-        characterViewModel.sendEVent(CharacterEvent.OnFetchCharacters)
     }
 }

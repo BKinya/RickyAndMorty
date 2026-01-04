@@ -1,33 +1,30 @@
 package com.beatrice.rickymorty.presentation.state
 
-import kotlin.coroutines.CoroutineContext
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.scan
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class DefaultStateMachine<State, Event, SideEffect>(
-    private val context: CoroutineContext,
     private val initialState: State,
     private val reducer: StateReducer<State, Event, SideEffect>
 ) : StateMachine<State, Event, SideEffect> {
 
-    private val coroutineScope = CoroutineScope(context)
-    private val eventStream = MutableSharedFlow<Event>(
-        replay = 10,
-        extraBufferCapacity = 10
-    )
+    private val _sideEffect = MutableSharedFlow<SideEffect>(replay = 0, extraBufferCapacity = 64)
+    override val sideEffect: Flow<SideEffect> = _sideEffect.asSharedFlow()
 
-    override val state: StateFlow<StateOutput<State, SideEffect?>>
-        get() = eventStream
-            .scan(initial = StateOutput(initialState, null)) { (state, _): StateOutput<State, SideEffect?>, event: Event ->
-                reducer.reduce(state, event)
-            }
-            .stateIn(scope = coroutineScope, started = SharingStarted.Eagerly, initialValue = StateOutput(initialState, null))
+    private val _state = MutableStateFlow(initialState)
+    override val state: StateFlow<State> = _state.asStateFlow()
 
     override suspend fun accept(event: Event) {
-        eventStream.emit(value = event)
+        val outPut = reducer.reduce(_state.value, event)
+
+        _state.value = outPut.state
+
+        outPut.sideEffect?.let {
+            _sideEffect.emit(it)
+        }
     }
 }

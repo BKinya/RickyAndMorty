@@ -1,9 +1,15 @@
 package com.beatrice.rickymorty.presentation.ui.screens
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -11,16 +17,47 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.beatrice.rickymorty.presentation.state.CharacterState
-import com.beatrice.rickymorty.presentation.ui.components.ShowCharactersPagedData
+import com.beatrice.rickymorty.presentation.state.CharacterEvent
+import com.beatrice.rickymorty.presentation.state.CharacterPaginationState
+import com.beatrice.rickymorty.presentation.ui.components.ShowCharactersList
+import com.beatrice.rickymorty.presentation.ui.components.ShowErrorMessage
 import com.beatrice.rickymorty.presentation.ui.components.ShowLoadingIndicatorWithText
+import kotlinx.coroutines.flow.distinctUntilChanged
+const val DEFAULT_LAST_INDEX = -9
 
+@Suppress("LongMethod")
 @Composable
 fun CharactersScreen(
-    uiState: CharacterState,
+    uiState: CharacterPaginationState,
     modifier: Modifier = Modifier,
-    onRetry: () -> Unit
+    onLoadMoreCharacters: (CharacterEvent) -> Unit
 ) {
+    val lazyGridState = rememberLazyGridState()
+
+    val currentState by rememberUpdatedState(uiState)
+    LaunchedEffect(lazyGridState) {
+        snapshotFlow {
+            val layoutInfo = lazyGridState.layoutInfo
+            val lastVisibleIndex = layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: DEFAULT_LAST_INDEX
+            val totalItemsCount = layoutInfo.totalItemsCount
+
+            lastVisibleIndex >= totalItemsCount - 2
+        }
+            .distinctUntilChanged()
+            .collect { isNearEnd ->
+                val latestState = currentState
+                if (isNearEnd) {
+                    if (isNearEnd && latestState is CharacterPaginationState.Content) {
+                        onLoadMoreCharacters(
+                            CharacterEvent.OnLoadMoreCharacters(
+                                currentItems = latestState.characters,
+                                page = latestState.nextPage
+                            )
+                        )
+                    }
+                }
+            }
+    }
     Scaffold(
         topBar = {
             Text(
@@ -36,23 +73,27 @@ fun CharactersScreen(
         }
     ) { contentPadding ->
         when (uiState) {
-            is CharacterState.Loading -> {
+            is CharacterPaginationState.InitialLoading -> {
                 ShowLoadingIndicatorWithText(
-                    modifier = modifier.padding(contentPadding)
-                )
-            }
-            is CharacterState.CharacterPagedData -> {
-                val characters = uiState.data
-                ShowCharactersPagedData(
-                    characters = characters,
-                    onRetry = onRetry,
-                    modifier = modifier.padding(contentPadding)
+                    modifier = modifier
+                        .fillMaxSize()
+                        .padding(contentPadding)
                 )
             }
 
-            else -> {
-                // do nothing
-            }
+            is CharacterPaginationState.InitialError -> ShowErrorMessage(
+                message = uiState.message,
+                modifier = Modifier.fillMaxSize()
+            )
+
+            is CharacterPaginationState.Content -> ShowCharactersList(
+                uiState = uiState,
+                contePadding = contentPadding,
+                lazyGridState = lazyGridState,
+                modifier = Modifier.padding(16.dp)
+            )
+
+            else -> { /* Do Nothing */ }
         }
     }
 }
