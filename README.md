@@ -19,33 +19,44 @@ given. It has three components:
 ## Implementation
 Define states, events, and side effects using Kotlin's `sealed interface`:
 ```kotlin
-sealed interface CharacterState {
-    data object Initial : CharacterState
-    data object Loading : CharacterState
+sealed interface CharacterPaginationState {
+    data object Default : CharacterPaginationState
+    data object InitialLoading : CharacterPaginationState
+    data class Content(
+        val characters: List<Character>,
+        ...
+    ) : CharacterPaginationState
 
-    data class CharacterPagedData(val data: Flow<PagingData<Character>>) : CharacterState
+    data class InitialError(val message: String) : CharacterPaginationState
 }
 
+
 sealed interface CharacterEvent {
-    data object OnFetchCharacters : CharacterEvent
-    data class OnFetchingCharacters(val characters: Flow<PagingData<Character>>) : CharacterEvent
+    data object OnInitialFetchCharacters : CharacterEvent
+    data class OnInitialFetchCharactersSuccess(val characters: List<Character>, val nextPage: Int?) : CharacterEvent
+    data class OnInitialFetchCharactersFailure(val message: String) : CharacterEvent
+    ...
 }
 
 sealed interface CharacterSideEffect {
-    data object FetchCharacters : CharacterSideEffect
+    data object InitialFetchCharacters : CharacterSideEffect
+    data class LoadMoreCharacters(val page: Int?) : CharacterSideEffect
 }
 ```
 
 Create a state machine interface: 
 ```kotlin
 interface StateMachine<State, Event, SideEffect> {
-    
-    val state: StateFlow<StateOutput<State, SideEffect?>>
+
+    val state: StateFlow<State>
+
+    val sideEffect: Flow<SideEffect>
     
     suspend fun accept(event: Event)
 }
 ```
 - The `state` variable holds the current state of the FSM.
+- The `sideEffect` variable holds side effect that could be produced by an event
 - The `accept(event: Event)` method receives the event sent to the FSM. The state machine will 
 process the event and update the value of `state`. 
 
@@ -64,4 +75,3 @@ class CharacterViewModel(
 
 ## Resources
 - [Discover Event-Driven Architecture for Android](https://proandroiddev.com/discovering-event-driven-architecture-for-android-717e6332065e)
-- [Why Developers Never Use State Machines](https://skorks.com/2011/09/why-developers-never-use-state-machines/)
