@@ -23,32 +23,31 @@ import com.beatrice.rickymorty.presentation.ui.components.ShowCharactersList
 import com.beatrice.rickymorty.presentation.ui.components.ShowErrorMessage
 import com.beatrice.rickymorty.presentation.ui.components.ShowLoadingIndicatorWithText
 import kotlinx.coroutines.flow.distinctUntilChanged
+const val DEFAULT_LAST_INDEX = -9
 
+@Suppress("LongMethod")
 @Composable
 fun CharactersScreen(
     uiState: CharacterPaginationState,
     modifier: Modifier = Modifier,
-    onRetry: () -> Unit,
     onLoadMoreCharacters: (CharacterEvent) -> Unit
 ) {
     val lazyGridState = rememberLazyGridState()
 
     val currentState by rememberUpdatedState(uiState)
-    println("State_is_ $currentState")
     LaunchedEffect(lazyGridState) {
         snapshotFlow {
             val layoutInfo = lazyGridState.layoutInfo
-            val lastVisibleIndex = layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: -9
+            val lastVisibleIndex = layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: DEFAULT_LAST_INDEX
             val totalItemsCount = layoutInfo.totalItemsCount
-            val isNearEnd = lastVisibleIndex >= totalItemsCount - 2
 
-            isNearEnd
+            lastVisibleIndex >= totalItemsCount - 2
         }
             .distinctUntilChanged()
-            .collect { isNearEnd->
+            .collect { isNearEnd ->
                 val latestState = currentState
-                if (isNearEnd){
-                    if (isNearEnd && latestState is CharacterPaginationState.Content ) {
+                if (isNearEnd) {
+                    if (isNearEnd && latestState is CharacterPaginationState.Content) {
                         onLoadMoreCharacters(
                             CharacterEvent.OnLoadMoreCharacters(
                                 currentItems = latestState.characters,
@@ -57,7 +56,6 @@ fun CharactersScreen(
                         )
                     }
                 }
-
             }
     }
     Scaffold(
@@ -83,13 +81,18 @@ fun CharactersScreen(
                 )
             }
 
-            is CharacterPaginationState.InitialError -> ShowErrorMessage(message = uiState.message, modifier = Modifier.fillMaxSize())
+            is CharacterPaginationState.InitialError -> ShowErrorMessage(
+                message = uiState.message,
+                modifier = Modifier.fillMaxSize()
+            )
+
             is CharacterPaginationState.Content -> ShowCharactersList(
                 uiState = uiState,
                 contePadding = contentPadding,
                 lazyGridState = lazyGridState,
                 modifier = Modifier.padding(16.dp)
             )
+
             else -> { /* Do Nothing */ }
         }
     }

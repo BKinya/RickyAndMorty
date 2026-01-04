@@ -5,7 +5,6 @@ import com.beatrice.rickymorty.data.util.runCatchingSuspend
 import com.beatrice.rickymorty.data.util.toDomain
 import com.beatrice.rickymorty.domain.model.CharactersResult
 
-
 class CharacterRepository(
     private val apiService: CharacterApiService
 ) {
